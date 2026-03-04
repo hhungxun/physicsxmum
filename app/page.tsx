@@ -29,7 +29,7 @@ export default function HomePage() {
               </div>
               <div className="card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {latestPosts.map(post => (
-                  <BlogCard key={post.id} post={post} />
+                  <BlogCard key={post.slug} post={post} />
                 ))}
               </div>
             </section>

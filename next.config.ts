@@ -31,8 +31,6 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Allow importing better-sqlite3 (native module) on the server
-  serverExternalPackages: ['better-sqlite3'],
 };
 
 export default nextConfig;

@@ -4,11 +4,11 @@ import Footer from '@/components/Footer';
 import PostContent from '@/components/PostContent';
 import TagBadge from '@/components/TagBadge';
 import BlogCard from '@/components/BlogCard';
-import { getPostBySlug, incrementViews, getAdjacentPosts, getAllPosts } from '@/lib/posts';
+import { getPostBySlug, getAdjacentPosts, getAllPosts } from '@/lib/posts';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Eye, Calendar, User, Clock } from 'lucide-react';
+import { Calendar, User, Clock } from 'lucide-react';
 import type { Metadata } from 'next';
 
 interface Props {
@@ -36,14 +36,10 @@ export default async function PostPage({ params }: Props) {
 
   if (!post || !post.published) notFound();
 
-  incrementViews(post.id);
-
-  const tags = (() => { try { return JSON.parse(post.tags) as string[]; } catch { return []; } })();
-  const dateStr = post.published_at || post.created_at;
-  const formattedDate = format(new Date(dateStr), 'MMMM d, yyyy');
+  const formattedDate = format(new Date(post.date), 'MMMM d, yyyy');
   const wordCount = post.content.split(/\s+/).length;
   const readTime = Math.max(1, Math.round(wordCount / 200));
-  const { prev, next } = getAdjacentPosts(post.id);
+  const { prev, next } = getAdjacentPosts(post.slug);
 
   return (
     <>
@@ -99,21 +95,17 @@ export default async function PostPage({ params }: Props) {
               <Clock size={15} className="text-gray-400" />
               {readTime} min read
             </span>
-            <span className="flex items-center gap-1.5">
-              <Eye size={15} className="text-gray-400" />
-              {post.views + 1} views
-            </span>
           </div>
 
           {/* Content */}
           <PostContent content={post.content} />
 
           {/* Tags */}
-          {tags.length > 0 && (
+          {post.tags.length > 0 && (
             <div className="mt-10 pt-6 border-t border-gray-200">
               <span className="text-sm font-medium text-gray-700 mr-2">Tags:</span>
               <div className="inline-flex flex-wrap gap-1.5">
-                {tags.map(tag => <TagBadge key={tag} tag={tag} />)}
+                {post.tags.map(tag => <TagBadge key={tag} tag={tag} />)}
               </div>
             </div>
           )}

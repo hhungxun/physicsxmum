@@ -9,8 +9,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ featuredPost }: HeroSectionProps) {
   if (featuredPost) {
-    const dateStr = featuredPost.published_at || featuredPost.created_at;
-    const formattedDate = format(new Date(dateStr), 'MMMM d, yyyy');
+    const formattedDate = format(new Date(featuredPost.date), 'MMMM d, yyyy');
 
     return (
       <section className="relative bg-[#1a3a6b] text-white overflow-hidden">

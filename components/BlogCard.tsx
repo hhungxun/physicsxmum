@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { Eye, Calendar, User } from 'lucide-react';
+import { Calendar, User } from 'lucide-react';
 import TagBadge from './TagBadge';
 import type { Post } from '@/lib/posts';
 
@@ -10,12 +10,7 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post }: BlogCardProps) {
-  const tags = (() => {
-    try { return JSON.parse(post.tags) as string[]; } catch { return []; }
-  })();
-
-  const dateStr = post.published_at || post.created_at;
-  const formattedDate = format(new Date(dateStr), 'MMM d, yyyy');
+  const formattedDate = format(new Date(post.date), 'MMM d, yyyy');
 
   return (
     <article className="animate-slide-up bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col">
@@ -61,9 +56,9 @@ export default function BlogCard({ post }: BlogCardProps) {
         )}
 
         <div className="mt-auto">
-          {tags.length > 0 && (
+          {post.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mb-3">
-              {tags.slice(0, 3).map(tag => (
+              {post.tags.slice(0, 3).map(tag => (
                 <TagBadge key={tag} tag={tag} />
               ))}
             </div>
@@ -77,10 +72,6 @@ export default function BlogCard({ post }: BlogCardProps) {
             <span className="flex items-center gap-1">
               <Calendar size={12} />
               {formattedDate}
-            </span>
-            <span className="flex items-center gap-1 ml-auto">
-              <Eye size={12} />
-              {post.views}
             </span>
           </div>
         </div>

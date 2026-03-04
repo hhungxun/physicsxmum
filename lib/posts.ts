@@ -1,32 +1,47 @@
-import { getDb } from './db';
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const POSTS_DIR = path.join(process.cwd(), 'content/posts');
 
 export interface Post {
-  id: number;
-  title: string;
   slug: string;
+  title: string;
   excerpt: string | null;
   content: string;
   cover_image: string | null;
   author: string;
   category: string | null;
-  tags: string; // JSON array string
-  published: number;
-  views: number;
-  created_at: string;
-  updated_at: string;
-  published_at: string | null;
+  tags: string[];
+  published: boolean;
+  date: string;
 }
 
-export interface PostInput {
-  title: string;
-  slug: string;
-  excerpt?: string;
-  content: string;
-  cover_image?: string;
-  author?: string;
-  category?: string;
-  tags?: string;
-  published?: number;
+function parsePost(filename: string): Post {
+  const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf-8');
+  const { data, content } = matter(raw);
+  const slug = data.slug ?? filename.replace(/\.md$/, '');
+  return {
+    slug,
+    title: data.title ?? '',
+    excerpt: data.excerpt ?? null,
+    content,
+    cover_image: data.cover_image ?? null,
+    author: data.author ?? 'XMUM Physics Department',
+    category: data.category ?? null,
+    tags: Array.isArray(data.tags) ? data.tags : [],
+    published: data.published === true,
+    date: data.date ?? '',
+  };
+}
+
+function readAllPosts(): Post[] {
+  if (!fs.existsSync(POSTS_DIR)) return [];
+  return fs
+    .readdirSync(POSTS_DIR)
+    .filter(f => f.endsWith('.md'))
+    .map(f => parsePost(f))
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }
 
 export function getAllPosts(options: {
@@ -36,37 +51,26 @@ export function getAllPosts(options: {
   limit?: number;
   offset?: number;
 } = {}): Post[] {
-  const db = getDb();
-  let query = 'SELECT * FROM posts WHERE 1=1';
-  const params: (string | number)[] = [];
+  let posts = readAllPosts();
 
   if (options.published !== undefined) {
-    query += ' AND published = ?';
-    params.push(options.published ? 1 : 0);
+    posts = posts.filter(p => p.published === options.published);
   }
-
   if (options.category) {
-    query += ' AND category = ?';
-    params.push(options.category);
+    posts = posts.filter(p => p.category === options.category);
   }
-
   if (options.tag) {
-    query += ' AND tags LIKE ?';
-    params.push(`%"${options.tag}"%`);
+    posts = posts.filter(p => p.tags.includes(options.tag!));
   }
 
-  query += ' ORDER BY COALESCE(published_at, created_at) DESC';
+  const offset = options.offset ?? 0;
+  posts = posts.slice(offset);
 
   if (options.limit !== undefined) {
-    query += ' LIMIT ?';
-    params.push(options.limit);
-    if (options.offset !== undefined) {
-      query += ' OFFSET ?';
-      params.push(options.offset);
-    }
+    posts = posts.slice(0, options.limit);
   }
 
-  return db.prepare(query).all(...params) as Post[];
+  return posts;
 }
 
 export function countPosts(options: {
@@ -74,186 +78,63 @@ export function countPosts(options: {
   category?: string;
   tag?: string;
 } = {}): number {
-  const db = getDb();
-  let query = 'SELECT COUNT(*) as count FROM posts WHERE 1=1';
-  const params: (string | number)[] = [];
+  let posts = readAllPosts();
 
   if (options.published !== undefined) {
-    query += ' AND published = ?';
-    params.push(options.published ? 1 : 0);
+    posts = posts.filter(p => p.published === options.published);
   }
-
   if (options.category) {
-    query += ' AND category = ?';
-    params.push(options.category);
+    posts = posts.filter(p => p.category === options.category);
   }
-
   if (options.tag) {
-    query += ' AND tags LIKE ?';
-    params.push(`%"${options.tag}"%`);
+    posts = posts.filter(p => p.tags.includes(options.tag!));
   }
 
-  return ((db.prepare(query).get(...params) as { count: number }) || { count: 0 }).count;
+  return posts.length;
 }
 
 export function getPostBySlug(slug: string): Post | null {
-  const db = getDb();
-  return (db.prepare('SELECT * FROM posts WHERE slug = ?').get(slug) as Post) || null;
+  const all = readAllPosts();
+  return all.find(p => p.slug === slug) ?? null;
 }
 
-export function getPostById(id: number): Post | null {
-  const db = getDb();
-  return (db.prepare('SELECT * FROM posts WHERE id = ?').get(id) as Post) || null;
-}
-
-export function createPost(input: PostInput): Post {
-  const db = getDb();
-  const result = db.prepare(`
-    INSERT INTO posts (title, slug, excerpt, content, cover_image, author, category, tags, published, published_at)
-    VALUES (@title, @slug, @excerpt, @content, @cover_image, @author, @category, @tags, @published, @published_at)
-  `).run({
-    title: input.title,
-    slug: input.slug,
-    excerpt: input.excerpt || null,
-    content: input.content,
-    cover_image: input.cover_image || null,
-    author: input.author || 'XMUM Physics Department',
-    category: input.category || null,
-    tags: input.tags || '[]',
-    published: input.published ?? 0,
-    published_at: input.published ? new Date().toISOString() : null,
-  });
-
-  return getPostById(result.lastInsertRowid as number)!;
-}
-
-export function updatePost(id: number, input: Partial<PostInput>): Post | null {
-  const db = getDb();
-  const existing = getPostById(id);
-  if (!existing) return null;
-
-  const wasPublished = existing.published === 1;
-  const nowPublished = input.published !== undefined ? input.published === 1 : wasPublished;
-
-  db.prepare(`
-    UPDATE posts SET
-      title = @title,
-      slug = @slug,
-      excerpt = @excerpt,
-      content = @content,
-      cover_image = @cover_image,
-      author = @author,
-      category = @category,
-      tags = @tags,
-      published = @published,
-      published_at = @published_at,
-      updated_at = datetime('now')
-    WHERE id = @id
-  `).run({
-    id,
-    title: input.title ?? existing.title,
-    slug: input.slug ?? existing.slug,
-    excerpt: input.excerpt !== undefined ? input.excerpt : existing.excerpt,
-    content: input.content ?? existing.content,
-    cover_image: input.cover_image !== undefined ? input.cover_image : existing.cover_image,
-    author: input.author ?? existing.author,
-    category: input.category !== undefined ? input.category : existing.category,
-    tags: input.tags ?? existing.tags,
-    published: nowPublished ? 1 : 0,
-    published_at: nowPublished && !wasPublished
-      ? new Date().toISOString()
-      : existing.published_at,
-  });
-
-  return getPostById(id);
-}
-
-export function deletePost(id: number): boolean {
-  const db = getDb();
-  const result = db.prepare('DELETE FROM posts WHERE id = ?').run(id);
-  return result.changes > 0;
-}
-
-export function togglePublish(id: number): Post | null {
-  const db = getDb();
-  const post = getPostById(id);
-  if (!post) return null;
-
-  const newPublished = post.published === 1 ? 0 : 1;
-  db.prepare(`
-    UPDATE posts SET
-      published = ?,
-      published_at = CASE WHEN ? = 1 THEN datetime('now') ELSE published_at END,
-      updated_at = datetime('now')
-    WHERE id = ?
-  `).run(newPublished, newPublished, id);
-
-  return getPostById(id);
+export function getAdjacentPosts(currentSlug: string): { prev: Post | null; next: Post | null } {
+  const published = readAllPosts().filter(p => p.published);
+  const i = published.findIndex(p => p.slug === currentSlug);
+  if (i === -1) return { prev: null, next: null };
+  // sorted desc by date: newer = lower index, older = higher index
+  // "next" = newer post (lower index), "prev" = older post (higher index)
+  return {
+    prev: published[i + 1] ?? null,
+    next: published[i - 1] ?? null,
+  };
 }
 
 export function searchPosts(query: string): Post[] {
-  const db = getDb();
-  const like = `%${query}%`;
-  return db.prepare(`
-    SELECT * FROM posts
-    WHERE published = 1
-      AND (title LIKE ? OR content LIKE ? OR excerpt LIKE ? OR tags LIKE ? OR category LIKE ?)
-    ORDER BY COALESCE(published_at, created_at) DESC
-    LIMIT 20
-  `).all(like, like, like, like, like) as Post[];
-}
-
-export function incrementViews(id: number) {
-  const db = getDb();
-  db.prepare('UPDATE posts SET views = views + 1 WHERE id = ?').run(id);
-}
-
-export function getAdjacentPosts(currentId: number): { prev: Post | null; next: Post | null } {
-  const db = getDb();
-  const prev = (db.prepare(`
-    SELECT * FROM posts WHERE published = 1 AND id < ?
-    ORDER BY id DESC LIMIT 1
-  `).get(currentId) as Post) || null;
-
-  const next = (db.prepare(`
-    SELECT * FROM posts WHERE published = 1 AND id > ?
-    ORDER BY id ASC LIMIT 1
-  `).get(currentId) as Post) || null;
-
-  return { prev, next };
+  const q = query.toLowerCase();
+  return readAllPosts()
+    .filter(p => p.published)
+    .filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      (p.excerpt ?? '').toLowerCase().includes(q) ||
+      p.tags.some(t => t.toLowerCase().includes(q)) ||
+      (p.category ?? '').toLowerCase().includes(q)
+    )
+    .slice(0, 20);
 }
 
 export function getAllCategories(): string[] {
-  const db = getDb();
-  const rows = db.prepare(`
-    SELECT DISTINCT category FROM posts WHERE published = 1 AND category IS NOT NULL
-    ORDER BY category
-  `).all() as { category: string }[];
-  return rows.map(r => r.category);
+  const cats = new Set<string>();
+  readAllPosts()
+    .filter(p => p.published && p.category)
+    .forEach(p => cats.add(p.category!));
+  return Array.from(cats).sort();
 }
 
 export function getAllTags(): string[] {
-  const db = getDb();
-  const rows = db.prepare(`
-    SELECT tags FROM posts WHERE published = 1
-  `).all() as { tags: string }[];
-
-  const tagSet = new Set<string>();
-  for (const row of rows) {
-    try {
-      const tags = JSON.parse(row.tags) as string[];
-      tags.forEach(t => tagSet.add(t));
-    } catch {}
-  }
-  return Array.from(tagSet).sort();
-}
-
-export function getStats() {
-  const db = getDb();
-  const total = (db.prepare('SELECT COUNT(*) as count FROM posts').get() as { count: number }).count;
-  const published = (db.prepare('SELECT COUNT(*) as count FROM posts WHERE published = 1').get() as { count: number }).count;
-  const drafts = total - published;
-  const totalViews = (db.prepare('SELECT COALESCE(SUM(views), 0) as total FROM posts').get() as { total: number }).total;
-
-  return { total, published, drafts, totalViews };
+  const tags = new Set<string>();
+  readAllPosts()
+    .filter(p => p.published)
+    .forEach(p => p.tags.forEach(t => tags.add(t)));
+  return Array.from(tags).sort();
 }
