@@ -85,7 +85,7 @@ export default async function PostPage({ params }: Props) {
             </div>
           </div>
         ) : (
-          <div className="bg-gradient-to-br from-[#1a3a6b] to-[#0f2044] py-16 px-4">
+          <div className="bg-gradient-to-br from-primary to-primary-deep py-16 px-4">
             <div className="max-w-4xl mx-auto">
               {post.category && (
                 <Link href={`/category/${encodeURIComponent(post.category)}`}
@@ -103,17 +103,17 @@ export default async function PostPage({ params }: Props) {
 
         <div className="max-w-4xl mx-auto px-4 py-8 animate-fade-in">
           {/* Meta */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-8 pb-6 border-b border-gray-200">
+          <div className="mb-8 flex flex-wrap items-center gap-4 border-b border-border pb-6 text-sm text-muted">
             <span className="flex items-center gap-1.5">
-              <User size={15} className="text-gray-400" />
+              <User size={15} className="text-border" />
               {post.author}
             </span>
             <span className="flex items-center gap-1.5">
-              <Calendar size={15} className="text-gray-400" />
+              <Calendar size={15} className="text-border" />
               {formattedDate}
             </span>
             <span className="flex items-center gap-1.5">
-              <Clock size={15} className="text-gray-400" />
+              <Clock size={15} className="text-border" />
               {readTime} min read
             </span>
           </div>
@@ -123,8 +123,8 @@ export default async function PostPage({ params }: Props) {
 
           {/* Tags */}
           {post.tags.length > 0 && (
-            <div className="mt-10 pt-6 border-t border-gray-200">
-              <span className="text-sm font-medium text-gray-700 mr-2">Tags:</span>
+            <div className="mt-10 border-t border-border pt-6">
+              <span className="mr-2 text-sm font-medium text-text">Tags:</span>
               <div className="inline-flex flex-wrap gap-1.5">
                 {post.tags.map(tag => <TagBadge key={tag} tag={tag} />)}
               </div>
@@ -133,17 +133,17 @@ export default async function PostPage({ params }: Props) {
 
           {/* Prev/Next */}
           {(prev || next) && (
-            <div className="mt-10 pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-10 grid grid-cols-1 gap-4 border-t border-border pt-6 md:grid-cols-2">
               {prev && (
-                <Link href={`/blog/${prev.slug}`} className="group p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 transition-colors">
-                  <div className="text-xs text-gray-500 mb-1">← Previous</div>
-                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-600 line-clamp-2 font-serif">{prev.title}</div>
+                <Link href={`/blog/${prev.slug}`} className="group rounded-xl border border-border bg-surface p-4 transition-colors hover:border-accent">
+                  <div className="mb-1 text-xs text-muted">← Previous</div>
+                  <div className="line-clamp-2 text-sm font-medium text-text font-serif group-hover:text-accent">{prev.title}</div>
                 </Link>
               )}
               {next && (
-                <Link href={`/blog/${next.slug}`} className="group p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 transition-colors md:text-right md:ml-auto w-full">
-                  <div className="text-xs text-gray-500 mb-1">Next →</div>
-                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-600 line-clamp-2 font-serif">{next.title}</div>
+                <Link href={`/blog/${next.slug}`} className="group ml-auto w-full rounded-xl border border-border bg-surface p-4 transition-colors hover:border-accent md:text-right">
+                  <div className="mb-1 text-xs text-muted">Next →</div>
+                  <div className="line-clamp-2 text-sm font-medium text-text font-serif group-hover:text-accent">{next.title}</div>
                 </Link>
               )}
             </div>

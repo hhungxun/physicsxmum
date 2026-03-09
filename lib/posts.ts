@@ -14,7 +14,9 @@ export interface Post {
   category: string | null;
   tags: string[];
   published: boolean;
+  featured: boolean;
   date: string;
+  portrait_focus: 'top' | 'center' | 'bottom';
 }
 
 function parsePost(filename: string): Post {
@@ -31,7 +33,10 @@ function parsePost(filename: string): Post {
     category: data.category ?? null,
     tags: Array.isArray(data.tags) ? data.tags : [],
     published: data.published === true,
+    featured: data.featured === true,
     date: data.date ?? '',
+    portrait_focus:
+      data.portrait_focus === 'top' || data.portrait_focus === 'bottom' ? data.portrait_focus : 'center',
   };
 }
 
@@ -108,19 +113,6 @@ export function getAdjacentPosts(currentSlug: string): { prev: Post | null; next
     prev: published[i + 1] ?? null,
     next: published[i - 1] ?? null,
   };
-}
-
-export function searchPosts(query: string): Post[] {
-  const q = query.toLowerCase();
-  return readAllPosts()
-    .filter(p => p.published)
-    .filter(p =>
-      p.title.toLowerCase().includes(q) ||
-      (p.excerpt ?? '').toLowerCase().includes(q) ||
-      p.tags.some(t => t.toLowerCase().includes(q)) ||
-      (p.category ?? '').toLowerCase().includes(q)
-    )
-    .slice(0, 20);
 }
 
 export function getAllCategories(): string[] {

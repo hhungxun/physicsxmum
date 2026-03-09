@@ -14,16 +14,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: absoluteUrl('/blog'),
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: absoluteUrl('/search'),
+      url: absoluteUrl('/about'),
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.8,
+    },
+    {
+      url: absoluteUrl('/faculty'),
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
     },
   ];
 
@@ -41,8 +41,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
+  // Tags use real URL paths (/ is a real separator, not encoded)
   const tagRoutes: MetadataRoute.Sitemap = getAllTags().map(tag => ({
-    url: absoluteUrl(`/tag/${encodeURIComponent(tag)}`),
+    url: absoluteUrl(`/tag/${tag}`),
     lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.5,

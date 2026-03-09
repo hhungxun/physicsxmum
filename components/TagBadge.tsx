@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { formatTagLabel } from '@/lib/tags';
 
 interface TagBadgeProps {
   tag: string;
@@ -6,15 +7,22 @@ interface TagBadgeProps {
 }
 
 export default function TagBadge({ tag, clickable = true }: TagBadgeProps) {
+  const { primary, secondary } = formatTagLabel(tag);
   const badge = (
-    <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-colors">
-      #{tag}
+    <span className="inline-flex items-center gap-1 rounded-full border border-accent/20 bg-accent-soft/55 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-accent-soft">
+      <span className="font-semibold">#{primary}</span>
+      {secondary && (
+        <>
+          <span className="text-muted/65">/</span>
+          <span className="text-accent">{secondary}</span>
+        </>
+      )}
     </span>
   );
 
   if (clickable) {
     return (
-      <Link href={`/tag/${encodeURIComponent(tag)}`}>
+      <Link href={`/tag/${tag}`} aria-label={`View posts tagged ${tag}`}>
         {badge}
       </Link>
     );

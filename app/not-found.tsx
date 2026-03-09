@@ -8,29 +8,23 @@ export default function NotFound() {
       <Navbar />
       <main id="main-content" className="flex-1">
         <section className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <p className="text-sm font-semibold tracking-wide uppercase text-blue-600 mb-3">404</p>
-          <h1 className="text-4xl font-bold font-serif text-gray-900 mb-4">Page not found</h1>
-          <p className="text-gray-600 mb-8">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-accent">404</p>
+          <h1 className="mb-4 text-4xl font-bold text-text font-serif">Page not found</h1>
+          <p className="mb-8 text-muted">
             The page you requested does not exist or may have moved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/"
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              className="rounded-lg bg-accent px-4 py-2 text-white transition-colors hover:bg-primary"
             >
               Go Home
             </Link>
             <Link
-              href="/blog"
-              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+              href="/faculty"
+              className="rounded-lg border border-border px-4 py-2 text-text transition-colors hover:bg-surface"
             >
-              Browse Blog
-            </Link>
-            <Link
-              href="/search"
-              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              Search Posts
+              Faculty
             </Link>
           </div>
         </section>
@@ -39,4 +33,3 @@ export default function NotFound() {
     </>
   );
 }
-

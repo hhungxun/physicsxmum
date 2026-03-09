@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { Calendar, User } from 'lucide-react';
 import TagBadge from './TagBadge';
+import ParticleFallback from './ParticleFallback';
 import type { Post } from '@/lib/posts';
 
 interface BlogCardProps {
@@ -13,7 +14,7 @@ export default function BlogCard({ post }: BlogCardProps) {
   const formattedDate = format(new Date(post.date), 'MMM d, yyyy');
 
   return (
-    <article className="animate-slide-up bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col">
+    <article className="animate-slide-up flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/8">
       {post.cover_image ? (
         <Link href={`/blog/${post.slug}`}>
           <div className="relative h-48 w-full overflow-hidden">
@@ -21,14 +22,15 @@ export default function BlogCard({ post }: BlogCardProps) {
               src={post.cover_image}
               alt={post.title}
               fill
-              className="object-cover hover:scale-105 transition-transform duration-300"
+              className="object-cover transition-transform duration-500 hover:scale-105"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent" />
           </div>
         </Link>
       ) : (
         <Link href={`/blog/${post.slug}`}>
-          <div className="h-48 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-            <span className="text-5xl">⚛️</span>
+          <div className="flex h-48 items-center justify-center bg-gradient-to-br from-accent-soft via-white to-accent-soft/60">
+            <ParticleFallback size={72} imageClassName="drop-shadow-xl" />
           </div>
         </Link>
       )}
@@ -37,20 +39,20 @@ export default function BlogCard({ post }: BlogCardProps) {
         {post.category && (
           <Link
             href={`/category/${encodeURIComponent(post.category)}`}
-            className="text-xs font-semibold uppercase tracking-wide text-blue-600 hover:text-blue-800 mb-2 block"
+            className="mb-2 block text-xs font-semibold uppercase tracking-wide text-accent transition-colors hover:text-primary"
           >
             {post.category}
           </Link>
         )}
 
         <Link href={`/blog/${post.slug}`}>
-          <h2 className="text-lg font-semibold text-gray-900 hover:text-blue-700 transition-colors line-clamp-2 mb-2 font-serif">
+          <h2 className="mb-2 line-clamp-2 text-lg font-semibold text-text font-serif transition-colors hover:text-accent">
             {post.title}
           </h2>
         </Link>
 
         {post.excerpt && (
-          <p className="text-sm text-gray-600 line-clamp-3 mb-4 flex-1">
+          <p className="mb-4 flex-1 line-clamp-3 text-sm text-muted">
             {post.excerpt}
           </p>
         )}
@@ -64,7 +66,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             </div>
           )}
 
-          <div className="flex items-center gap-3 text-xs text-gray-500 border-t border-gray-100 pt-3">
+          <div className="flex items-center gap-3 border-t border-border/70 pt-3 text-xs text-muted">
             <span className="flex items-center gap-1">
               <User size={12} />
               {post.author}
