@@ -28,6 +28,10 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
+  icons: {
+    icon: '/icon.jpg',
+    apple: '/apple-icon.jpg',
+  },
   title: {
     default: siteName,
     template: '%s | XMUM Physics',
