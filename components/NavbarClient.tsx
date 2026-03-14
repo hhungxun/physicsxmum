@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Search, Menu, X, Atom } from 'lucide-react';
+import { Search, Menu, X, Atom, MessageSquare } from 'lucide-react';
 
 export interface NavbarSearchItem {
   slug: string;
@@ -94,6 +94,15 @@ export default function NavbarClient({ searchIndex }: NavbarClientProps) {
             <Link href="/category/Events" className="transition-colors hover:text-accent">Talks</Link>
             <Link href="/category/News" className="transition-colors hover:text-accent">News</Link>
             <Link href="/category/Students" className="transition-colors hover:text-accent">Students</Link>
+            <a
+              href="https://forum.physicsxmum.my"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="forum-link inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent/85"
+            >
+              <MessageSquare size={13} />
+              Forum
+            </a>
           </nav>
 
           <form onSubmit={handleSubmit} className="relative hidden sm:block">
@@ -159,6 +168,16 @@ export default function NavbarClient({ searchIndex }: NavbarClientProps) {
               <Link href="/category/Events" className="py-1 hover:text-accent" onClick={() => setMenuOpen(false)}>Talks</Link>
               <Link href="/category/News" className="py-1 hover:text-accent" onClick={() => setMenuOpen(false)}>News</Link>
               <Link href="/category/Students" className="py-1 hover:text-accent" onClick={() => setMenuOpen(false)}>Students</Link>
+              <a
+                href="https://forum.physicsxmum.my"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="forum-link inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 text-sm font-semibold text-white shadow-sm w-fit"
+                onClick={() => setMenuOpen(false)}
+              >
+                <MessageSquare size={13} />
+                Forum
+              </a>
             </nav>
             <form onSubmit={handleSubmit} className="relative">
               <label htmlFor="mobile-navbar-search" className="sr-only">

@@ -184,6 +184,16 @@ pre code.hljs {
 .animate-scale-in { animation: scaleIn 0.4s ease-out both; }
 .animate-drift { animation: drift 8s ease-in-out infinite; }
 
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  15%       { transform: rotate(-10deg) scale(1.05); }
+  35%       { transform: rotate(10deg) scale(1.05); }
+  55%       { transform: rotate(-6deg) scale(1.02); }
+  75%       { transform: rotate(6deg) scale(1.02); }
+}
+
+.forum-link:hover { animation: wiggle 0.55s ease-in-out; }
+
 .animation-delay-75  { animation-delay: 0.075s; }
 .animation-delay-150 { animation-delay: 0.15s; }
 .animation-delay-225 { animation-delay: 0.225s; }
