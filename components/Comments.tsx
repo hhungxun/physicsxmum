@@ -26,13 +26,14 @@ export default function Comments({ slug }: Props) {
   const [user, setUser] = useState<User | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
 
-  if (!isFirebaseConfigured) {
+  if (!isFirebaseConfigured || !db || !auth || !googleProvider) {
     return (
       <section className="mt-12 border-t border-border pt-10">
         <div className="text-sm text-muted">Comments are disabled because Firebase is not configured.</div>
       </section>
     );
   }
+
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
