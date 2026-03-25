@@ -99,7 +99,10 @@ export default function Comments({ slug }: Props) {
         </h2>
         {user && (
           <button
-            onClick={() => signOut(auth)}
+            onClick={() => {
+              if (!auth) return;
+              signOut(auth);
+            }}
             className="flex items-center gap-1.5 text-xs text-muted hover:text-text transition-colors"
           >
             <LogOut size={13} /> Sign out
