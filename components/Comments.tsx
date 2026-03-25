@@ -143,7 +143,10 @@ export default function Comments({ slug }: Props) {
                 </div>
                 {user?.uid === c.userId && (
                   <button
-                    onClick={() => deleteDoc(doc(db, 'comments', slug, 'entries', c.id))}
+                    onClick={() => {
+                      if (!db) return;
+                      deleteDoc(doc(db, 'comments', slug, 'entries', c.id));
+                    }}
                     className="flex-shrink-0 text-muted hover:text-red-500 transition-colors"
                     aria-label="Delete comment"
                   >
