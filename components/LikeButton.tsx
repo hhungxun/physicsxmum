@@ -38,10 +38,12 @@ export default function LikeButton({ slug }: Props) {
       return;
     }
 
+    const firestore = db;
+
     setLoading(true);
     try {
-      await runTransaction(db, async tx => {
-        const ref = doc(db, 'likes', slug);
+      await runTransaction(firestore, async tx => {
+        const ref = doc(firestore, 'likes', slug);
         const snap = await tx.get(ref);
         tx.set(ref, { count: (snap.exists() ? (snap.data().count ?? 0) : 0) + 1 });
       });
