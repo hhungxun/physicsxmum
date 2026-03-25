@@ -6,7 +6,7 @@ import {
   orderBy, query, serverTimestamp, deleteDoc, doc,
 } from 'firebase/firestore';
 import { signInWithPopup, signOut, onAuthStateChanged, type User } from 'firebase/auth';
-import { db, auth, googleProvider } from '@/lib/firebase';
+import { db, auth, googleProvider, isFirebaseConfigured } from '@/lib/firebase';
 import { LogOut, Trash2, Send, MessageSquare } from 'lucide-react';
 
 interface Comment {
@@ -25,15 +25,32 @@ interface Props {
 export default function Comments({ slug }: Props) {
   const [user, setUser] = useState<User | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
+
+  if (!isFirebaseConfigured) {
+    return (
+      <section className="mt-12 border-t border-border pt-10">
+        <div className="text-sm text-muted">Comments are disabled because Firebase is not configured.</div>
+      </section>
+    );
+  }
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    if (!isFirebaseConfigured || !auth) {
+      return;
+    }
+
     const unsub = onAuthStateChanged(auth, setUser);
     return unsub;
   }, []);
 
   useEffect(() => {
+    if (!isFirebaseConfigured || !db) {
+      setComments([]);
+      return;
+    }
+
     const q = query(
       collection(db, 'comments', slug, 'entries'),
       orderBy('createdAt', 'asc'),
@@ -53,7 +70,8 @@ export default function Comments({ slug }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!text.trim() || !user) return;
+    if (!isFirebaseConfigured || !db || !user) return;
+    if (!text.trim()) return;
     setSubmitting(true);
     try {
       await addDoc(collection(db, 'comments', slug, 'entries'), {
@@ -171,7 +189,10 @@ export default function Comments({ slug }: Props) {
         <div className="surface-muted rounded-[1.5rem] p-6 text-center">
           <p className="mb-4 text-sm text-muted">Sign in with Google to leave a comment or ask a question.</p>
           <button
-            onClick={() => signInWithPopup(auth, googleProvider)}
+            onClick={() => {
+              if (!isFirebaseConfigured || !auth || !googleProvider) return;
+              signInWithPopup(auth, googleProvider);
+            }}
             className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-text shadow-sm transition-shadow hover:shadow-md"
           >
             {/* Google logo */}

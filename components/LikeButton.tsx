@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { doc, getDoc, runTransaction } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db, isFirebaseConfigured } from '@/lib/firebase';
 import { Heart } from 'lucide-react';
 
 interface Props {
@@ -18,13 +18,26 @@ export default function LikeButton({ slug }: Props) {
 
   useEffect(() => {
     setLiked(!!localStorage.getItem(storageKey));
+
+    if (!isFirebaseConfigured || !db) {
+      setCount(0);
+      return;
+    }
+
     getDoc(doc(db, 'likes', slug)).then(snap => {
       setCount(snap.exists() ? (snap.data().count ?? 0) : 0);
+    }).catch(() => {
+      setCount(0);
     });
   }, [slug, storageKey]);
 
   async function handleLike() {
     if (liked || loading) return;
+
+    if (!isFirebaseConfigured || !db) {
+      return;
+    }
+
     setLoading(true);
     try {
       await runTransaction(db, async tx => {
@@ -40,15 +53,17 @@ export default function LikeButton({ slug }: Props) {
     }
   }
 
+  const isDisabled = !isFirebaseConfigured || liked || loading;
+
   return (
     <button
       onClick={handleLike}
-      disabled={liked || loading}
+      disabled={isDisabled}
       className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
         liked
           ? 'border-red-200 bg-red-50 text-red-500 cursor-default'
           : 'border-border bg-surface text-muted hover:border-red-300 hover:text-red-500'
-      }`}
+      } ${!isFirebaseConfigured ? 'cursor-not-allowed opacity-60' : ''}`}
       aria-label={liked ? 'You liked this post' : 'Like this post'}
     >
       <Heart size={15} className={liked ? 'fill-current' : ''} />
