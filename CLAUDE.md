@@ -8,7 +8,8 @@ Project instructions for Claude Code. These apply to every session.
 - **Tailwind CSS v4** — config is CSS-first (`app/globals.css`), uses `@import "tailwindcss"` and `@plugin "@tailwindcss/typography"`
 - **gray-matter** — parses YAML frontmatter from `.md` files in `content/posts/`
 - **react-markdown** with `remark-gfm`, `remark-math`, `rehype-highlight`, `rehype-slug`, `rehype-katex` for rendering post content
-- **No server, no database, no auth** — pure static site, deployable to GitHub Pages
+- **Firebase (client SDK)** — Firestore + Auth, used by `Comments` and `LikeButton`. Configured entirely through `NEXT_PUBLIC_FIREBASE_*` env vars and gated behind `isFirebaseConfigured` in `lib/firebase.ts`, so the site still builds and renders with Firebase absent.
+- **No server and no server-side code.** The deployed artifact is a static export (`output: 'export'`) published to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`, fronted by Cloudflare. There are no API routes and no server runtime — anything dynamic must run in the browser.
 
 ## Key Files
 
@@ -21,6 +22,9 @@ Project instructions for Claude Code. These apply to every session.
 | `components/TagBadge.tsx` | Clickable tag pill linking to `/tag/[name]` |
 | `components/SearchClient.tsx` | Client component — reads `?q=` via `useSearchParams()`, filters posts in JS |
 | `app/globals.css` | Tailwind v4 config, highlight.js CSS, KaTeX CSS, animation keyframes |
+| `lib/camp.ts` | Junior Science Camp 2026 facts — dates, fee, inclusions, schedule, FAQ. Single source of truth for `/nextfrontier` |
+| `lib/camp-topics.ts` | The 24 poster competition topics, with difficulty labels, physics anchors and starter links |
+| `app/nextfrontier/` | Camp landing page + topics page. Styled by `camp.css`, whose selectors are all scoped under `.camp` so the poster palette cannot leak into the rest of the site |
 
 ## Commands
 

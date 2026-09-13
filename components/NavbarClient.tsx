@@ -94,6 +94,7 @@ export default function NavbarClient({ searchIndex }: NavbarClientProps) {
             <Link href="/category/Events" className="transition-colors hover:text-accent">Talks</Link>
             <Link href="/category/News" className="transition-colors hover:text-accent">News</Link>
             <Link href="/category/Students" className="transition-colors hover:text-accent">Students</Link>
+            <Link href="/nextfrontier" className="font-semibold text-primary transition-colors hover:text-accent">Science Camp</Link>
             <a
               href="https://forum.physicsxmum.my"
               target="_blank"
@@ -168,6 +169,7 @@ export default function NavbarClient({ searchIndex }: NavbarClientProps) {
               <Link href="/category/Events" className="py-1 hover:text-accent" onClick={() => setMenuOpen(false)}>Talks</Link>
               <Link href="/category/News" className="py-1 hover:text-accent" onClick={() => setMenuOpen(false)}>News</Link>
               <Link href="/category/Students" className="py-1 hover:text-accent" onClick={() => setMenuOpen(false)}>Students</Link>
+              <Link href="/nextfrontier" className="py-1 font-semibold text-primary hover:text-accent" onClick={() => setMenuOpen(false)}>Science Camp</Link>
               <a
                 href="https://forum.physicsxmum.my"
                 target="_blank"
