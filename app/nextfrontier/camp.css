@@ -1,0 +1,240 @@
+/*
+ * NEXT//FRONTIER camp pages — visual language taken from the printed poster.
+ *
+ * Everything is scoped under `.camp` so this palette cannot leak into the rest
+ * of physicsxmum.my, which keeps its own navy/cream identity. The site navbar
+ * and footer render unstyled by this file on purpose: the page should read as
+ * part of the department site, not as a separate microsite.
+ *
+ * Colours sampled from 02-promotion/poster.jpeg.
+ */
+
+.camp {
+  --camp-blue: #1b47a8;
+  --camp-blue-deep: #12306f;
+  --camp-blue-mid: #3f6ed0;
+  --camp-lilac: #ebdcfd;
+  --camp-lilac-deep: #cbb4ee;
+  --camp-cream: #fff4dc;
+  --camp-cream-deep: #f4e3bb;
+  --camp-orange: #f5821f;
+  --camp-red: #e03127;
+  --camp-yellow: #ffd429;
+  --camp-ink: #14213d;
+
+  background: var(--camp-cream);
+  color: var(--camp-ink);
+}
+
+/* ---------- display type ---------- */
+
+.camp-display {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.camp-label {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+/* "FRONTIER" as an outline, the way the poster sets it */
+.camp-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px #ffffff;
+  paint-order: stroke fill;
+}
+
+@media (min-width: 768px) {
+  .camp-outline { -webkit-text-stroke-width: 3px; }
+}
+
+/* Browsers without text-stroke get solid white rather than invisible text */
+@supports not (-webkit-text-stroke: 1px #000) {
+  .camp-outline { color: #ffffff; }
+}
+
+/* ---------- the browser-window device from the poster ---------- */
+
+.camp-window {
+  border: 3px solid var(--camp-ink);
+  border-radius: 14px;
+  background: var(--camp-lilac);
+  box-shadow: 8px 8px 0 rgba(20, 33, 61, 0.35);
+  overflow: hidden;
+}
+
+.camp-window__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  background: var(--camp-cream-deep);
+  border-bottom: 3px solid var(--camp-ink);
+}
+
+.camp-window__dots {
+  display: flex;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.camp-window__dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid var(--camp-ink);
+  border-radius: 999px;
+}
+
+.camp-window__address {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.7rem;
+  background: #fff;
+  border: 2px solid var(--camp-ink);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--camp-blue-deep);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ---------- taped paper panels ---------- */
+
+.camp-tape {
+  position: relative;
+  background: var(--camp-cream);
+  border: 3px solid var(--camp-ink);
+  border-radius: 4px;
+  box-shadow: 6px 6px 0 rgba(20, 33, 61, 0.22);
+}
+
+.camp-tape::before {
+  content: '';
+  position: absolute;
+  top: -0.7rem;
+  left: 50%;
+  width: 5.5rem;
+  height: 1.4rem;
+  transform: translateX(-50%) rotate(-2.5deg);
+  background: rgba(255, 212, 41, 0.75);
+  border: 2px solid rgba(20, 33, 61, 0.35);
+}
+
+/* ---------- pills, badges, buttons ---------- */
+
+.camp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border: 2px solid var(--camp-ink);
+  border-radius: 999px;
+  background: var(--camp-yellow);
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.camp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border: 3px solid var(--camp-ink);
+  border-radius: 999px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+  box-shadow: 4px 4px 0 var(--camp-ink);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.camp-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--camp-ink);
+}
+
+.camp-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--camp-ink);
+}
+
+.camp-btn--primary { background: var(--camp-red); color: #fff; }
+.camp-btn--secondary { background: var(--camp-yellow); color: var(--camp-ink); }
+.camp-btn--ghost { background: #fff; color: var(--camp-ink); }
+
+/* ---------- cards ---------- */
+
+.camp-card {
+  background: #fff;
+  border: 3px solid var(--camp-ink);
+  border-radius: 12px;
+  box-shadow: 5px 5px 0 rgba(20, 33, 61, 0.2);
+}
+
+.camp-card--lilac { background: var(--camp-lilac); }
+.camp-card--cream { background: var(--camp-cream); }
+
+/* ---------- difficulty chips ---------- */
+
+.camp-chip {
+  display: inline-block;
+  padding: 0.16rem 0.6rem;
+  border: 2px solid var(--camp-ink);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.camp-chip--foundation { background: #c9f0d2; }
+.camp-chip--intermediate { background: var(--camp-yellow); }
+.camp-chip--challenging { background: #ffc4bf; }
+
+/* ---------- schedule ---------- */
+
+.camp-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--camp-blue);
+}
+
+/* ---------- misc ---------- */
+
+.camp-rule {
+  height: 3px;
+  background: var(--camp-ink);
+  border: 0;
+}
+
+.camp-link {
+  color: var(--camp-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+.camp-link:hover { color: var(--camp-red); }
+
+@media (prefers-reduced-motion: reduce) {
+  .camp-btn, .camp-btn:hover, .camp-btn:active {
+    transform: none;
+    transition: none;
+  }
+}
