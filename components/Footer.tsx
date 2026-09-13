@@ -1,9 +1,9 @@
 import { Atom } from 'lucide-react';
 
-// Update this to the department's actual Instagram profile URL.
+// Instagram for the XMUM Physics Student Council (PHYSC).
 // Use `||`, not `??`: CI passes an unset GitHub secret as an empty string, which is
 // not nullish, so `??` would ship an empty href.
-const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/xmumphysics';
+const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/xmum_physc';
 
 export default function Footer() {
   return (
