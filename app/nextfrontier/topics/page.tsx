@@ -2,7 +2,6 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowLeft, ArrowRight, Download, ExternalLink } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import Reveal from '@/components/Reveal';
 import Footer from '@/components/Footer';
 import { absoluteUrl } from '@/lib/site';
 import { CAMP } from '@/lib/camp';
@@ -47,20 +46,20 @@ export default function TopicsPage() {
             >
               <ArrowLeft size={14} /> Back to {CAMP.name}
             </Link>
-            <Reveal as="h1" className="camp-display text-4xl sm:text-6xl" style={{ color: '#fff' }}>
+            <h1 className="camp-display text-4xl sm:text-6xl" data-split style={{ color: '#fff' }}>
               Poster topics
-            </Reveal>
-            <Reveal as="p" delay={120} className="mt-5 max-w-2xl text-base leading-relaxed" style={{ color: 'var(--camp-lilac)' }}>
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed" data-anim data-anim-delay="150" style={{ color: 'var(--camp-lilac)' }}>
               {ALL_TOPICS.length} questions. None of them has a settled answer. Your poster must show what is
               already known about the physics, and then give your team’s own answer, with your reasoning.
-            </Reveal>
+            </p>
           </div>
         </section>
 
         {/* how to use this page */}
         <section className="px-4 py-12">
           <div className="mx-auto max-w-4xl">
-            <Reveal direction="scale" className="camp-card camp-card--cream px-6 py-6">
+            <div className="camp-card camp-card--cream px-6 py-6" data-anim>
               <h2 className="camp-display mb-4 text-xl">How to choose</h2>
               <p className="text-sm leading-relaxed">
                 Pick three you would genuinely be happy with and give them to us in order when you register.
@@ -81,7 +80,7 @@ export default function TopicsPage() {
                 Difficulty does not affect your score. A Foundation question done brilliantly beats a
                 Challenging one done badly.
               </p>
-            </Reveal>
+            </div>
           </div>
         </section>
 
@@ -94,17 +93,17 @@ export default function TopicsPage() {
             style={{ background: trackIndex % 2 === 0 ? 'var(--camp-lilac)' : 'transparent' }}
           >
             <div className="mx-auto max-w-4xl">
-              <Reveal className="mb-8">
+              <div className="mb-8">
                 <div className="camp-label mb-2" style={{ color: 'var(--camp-red)' }}>
                   {track.topics.length} topics
                 </div>
-                <h2 className="camp-display text-3xl">{track.name}</h2>
+                <h2 className="camp-display text-3xl" data-split>{track.name}</h2>
                 <hr className="camp-rule mt-4" />
-              </Reveal>
+              </div>
 
               <div className="space-y-5">
                 {track.topics.map(topic => (
-                  <Reveal as="article" key={topic.code} id={topic.code} className="camp-card scroll-mt-20 px-6 py-6">
+                  <article key={topic.code} id={topic.code} className="camp-card scroll-mt-20 px-6 py-6" data-anim>
                     <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
                       <span className="camp-display text-2xl" style={{ color: 'var(--camp-blue)' }}>
                         {topic.code}
@@ -136,7 +135,7 @@ export default function TopicsPage() {
                         </li>
                       ))}
                     </ul>
-                  </Reveal>
+                  </article>
                 ))}
               </div>
             </div>
@@ -147,7 +146,7 @@ export default function TopicsPage() {
         <section className="px-4 py-12" style={{ background: 'var(--camp-cream-deep)' }}>
           <div className="mx-auto max-w-4xl">
             <h2 className="camp-display mb-6 text-3xl">How posters are judged</h2>
-            <Reveal direction="scale" className="camp-card camp-card--cream px-6 py-8 text-center">
+            <div className="camp-card camp-card--cream px-6 py-8 text-center" data-anim>
               <span className="camp-pill mb-4">Coming soon</span>
               <p className="mx-auto max-w-xl text-sm leading-relaxed">
                 Our academic team is finalising the judging rubric. We'll publish the full criteria
@@ -155,7 +154,7 @@ export default function TopicsPage() {
                 well before the camp — so you'll know exactly what the judges are looking for while
                 you're still building your poster.
               </p>
-            </Reveal>
+            </div>
           </div>
         </section>
 

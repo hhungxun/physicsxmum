@@ -1,57 +1,35 @@
 import './camp.css';
+import CampMotion from '@/components/CampMotion';
 
 /**
- * Sets up the scroll reveals before first paint, without React.
+ * Arms the motion before first paint.
  *
- * Runs inline so the hidden state is applied in the same frame the page paints —
- * arm it any later and the content flashes visible, then snaps away. It also means
- * reveals work from the moment the DOM is parsed rather than waiting on hydration.
+ * `camp-js` is what allows anything to be hidden, so it is deliberately never added
+ * when the viewer has asked for reduced motion — that path keeps the plain page.
  *
- * Three safety valves, in order:
- *   · prefers-reduced-motion  → `camp-js` is never added, so nothing is ever hidden
- *   · no IntersectionObserver → everything is shown immediately
- *   · hydration/JS trouble    → a 2.5s timer shows everything regardless
+ * The timer is a failsafe for the case where the motion chunk never arrives: after
+ * 2.5s everything is forced visible. CampMotion sets `__campMotion` as soon as it
+ * initialises so the failsafe stands down rather than fighting a running timeline.
  */
-const REVEALS = `
+const ARM = `
 (function () {
   var doc = document.documentElement;
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return;
-
+  var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq && mq.matches) return;
   doc.classList.add('camp-js');
-  var showAll = function () { doc.classList.add('camp-reveal-all'); };
-
-  if (!('IntersectionObserver' in window)) { showAll(); return; }
-
-  var start = function () {
-    var io = new IntersectionObserver(function (entries) {
-      for (var i = 0; i < entries.length; i++) {
-        if (entries[i].isIntersecting) {
-          entries[i].target.classList.add('is-visible');
-          io.unobserve(entries[i].target);
-        }
-      }
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
-
-    var els = document.querySelectorAll('.camp-reveal');
-    for (var i = 0; i < els.length; i++) io.observe(els[i]);
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
-  } else {
-    start();
-  }
-
-  setTimeout(showAll, 2500);
+  setTimeout(function () {
+    if (!window.__campMotion) doc.classList.add('camp-reveal-all');
+  }, 2500);
 })();
 `;
 
 export default function CampLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <script dangerouslySetInnerHTML={{ __html: REVEALS }} />
+      <script dangerouslySetInnerHTML={{ __html: ARM }} />
+      <div className="camp-progress" data-progress aria-hidden="true" />
       {children}
+      <CampMotion />
     </>
   );
 }

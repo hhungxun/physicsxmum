@@ -239,43 +239,78 @@
   }
 }
 
-/* ---------- scroll reveals ----------
+/* ---------- motion ----------
  *
- * The hidden state is gated on `.camp-js`, added to <html> by an inline script
- * before paint. No JavaScript means the class never lands, so nothing is hidden
- * and the page reads normally — this is a static export, and content that needs
- * JS to become visible is content that can disappear.
+ * Hidden states are gated on `.camp-js`, which the inline script in layout.tsx adds
+ * only when reduced motion is not requested. No JS, reduced motion, or a failed
+ * chunk all land on the same plain, fully visible page.
  */
 
-.camp-reveal {
-  transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+/* Lenis drives scrolling itself; native smooth scrolling fights it. */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Words rising from behind a mask. */
+.camp-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
 }
 
-.camp-js .camp-reveal { opacity: 0; }
-.camp-js .camp-reveal--up { transform: translate3d(0, 30px, 0); }
-.camp-js .camp-reveal--left { transform: translate3d(-30px, 0, 0); }
-.camp-js .camp-reveal--right { transform: translate3d(30px, 0, 0); }
-.camp-js .camp-reveal--scale { transform: scale(0.95); }
+.camp-w__i { display: inline-block; }
+.camp-js .camp-w__i { transform: translateY(115%); }
 
-.camp-js .camp-reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
+/* Blocks pre-hidden so nothing flashes before the timeline is built. */
+.camp-js [data-anim] { opacity: 0; }
 
-/* Failsafe — see the note in layout.tsx. If hydration never lands, show everything. */
-.camp-reveal-all .camp-reveal {
+/* Failsafe: if motion never initialises, show everything. */
+.camp-reveal-all [data-anim],
+.camp-reveal-all .camp-w__i {
   opacity: 1 !important;
   transform: none !important;
 }
 
+/* Scroll progress. */
+.camp-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  height: 4px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: var(--camp-red);
+}
+
+/* Pinned horizontal track. */
+.camp-htrack {
+  display: flex;
+  gap: 1.5rem;
+  padding-inline: 1rem;
+  width: max-content;
+  will-change: transform;
+}
+
+.camp-htrack > * {
+  width: 21rem;
+  flex: none;
+}
+
+@media (min-width: 900px) {
+  .camp-htrack > * { width: 26rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .camp-js .camp-reveal,
-  .camp-js .camp-reveal.is-visible {
+  .camp-js [data-anim],
+  .camp-js .camp-w__i {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
-    transition-delay: 0ms !important;
+  }
+  .camp-htrack {
+    flex-wrap: wrap;
+    width: auto;
   }
 }
