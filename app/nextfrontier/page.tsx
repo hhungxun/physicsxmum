@@ -62,7 +62,7 @@ export default function NextFrontierPage() {
 
               <div className="px-5 py-10 text-center sm:px-10 sm:py-14">
                 <span className="camp-pill mb-6" data-anim style={{ background: 'var(--camp-red)', color: '#fff' }}>
-                  Age {CAMP.ageRange}? You’re up next.
+                  You’re up next.
                 </span>
 
                 <CampWordmark />
