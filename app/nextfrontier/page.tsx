@@ -263,16 +263,11 @@ export default function NextFrontierPage() {
 
               <div className="camp-card camp-card--lilac px-6 py-6">
                 <h3 className="camp-display mb-4 text-lg">How you’re judged</h3>
-                <ul className="space-y-3 text-sm">
-                  <li><strong>30%</strong> Scientific accuracy</li>
-                  <li><strong>25%</strong> Clarity of communication</li>
-                  <li><strong>20%</strong> Visual design</li>
-                  <li><strong>15%</strong> Depth of understanding</li>
-                  <li><strong>10%</strong> Originality of angle</li>
-                </ul>
-                <p className="mt-5 text-xs leading-relaxed">
-                  Every judge will ask you one question that isn’t on your poster. If you did the reading,
-                  that’s where you pull ahead.
+                <span className="camp-pill mb-4">Rubric coming soon</span>
+                <p className="text-sm leading-relaxed">
+                  Our academic team is finalising the judging criteria. We’ll publish them on the
+                  topics page and send them to every team with your starter pack, well before the
+                  camp.
                 </p>
               </div>
             </div>

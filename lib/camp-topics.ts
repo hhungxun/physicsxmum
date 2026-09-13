@@ -337,6 +337,14 @@ export const TOPIC_TRACKS: TopicTrack[] = [
 
 export const ALL_TOPICS: CampTopic[] = TOPIC_TRACKS.flatMap(track => track.topics);
 
+/**
+ * DRAFT — deliberately not rendered anywhere yet.
+ *
+ * The Academic Team has not signed these weightings off, and publishing a rubric
+ * commits the camp to marking against it. Both camp pages show a "coming soon"
+ * placeholder instead. Once it is approved, render this from the topics page and
+ * drop the placeholder.
+ */
 export const JUDGING_CRITERIA = [
   { criterion: 'Scientific accuracy', weight: '30%', detail: 'Correct physics. No hand-waving, and no misconceptions carried over from the internet.' },
   { criterion: 'Clarity of communication', weight: '25%', detail: 'Could another 16-year-old follow this without help?' },

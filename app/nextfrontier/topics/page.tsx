@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import { absoluteUrl } from '@/lib/site';
 import { CAMP } from '@/lib/camp';
 import {
-  TOPIC_TRACKS, ALL_TOPICS, DIFFICULTY_NOTE, JUDGING_CRITERIA, type Difficulty,
+  TOPIC_TRACKS, ALL_TOPICS, DIFFICULTY_NOTE, type Difficulty,
 } from '@/lib/camp-topics';
 
 const description =
@@ -142,36 +142,19 @@ export default function TopicsPage() {
           </section>
         ))}
 
-        {/* judging */}
+        {/* judging — rubric not signed off yet, so nothing is published */}
         <section className="px-4 py-12" style={{ background: 'var(--camp-cream-deep)' }}>
           <div className="mx-auto max-w-4xl">
             <h2 className="camp-display mb-6 text-3xl">How posters are judged</h2>
-            <div className="camp-card overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead>
-                    <tr style={{ background: 'var(--camp-blue)', color: '#fff' }}>
-                      <th className="px-5 py-3 font-bold">Criterion</th>
-                      <th className="px-5 py-3 font-bold">Weight</th>
-                      <th className="px-5 py-3 font-bold">What we look for</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {JUDGING_CRITERIA.map((row, i) => (
-                      <tr key={row.criterion} style={{ background: i % 2 ? 'var(--camp-cream)' : '#fff' }}>
-                        <td className="px-5 py-3 font-semibold">{row.criterion}</td>
-                        <td className="px-5 py-3 font-bold" style={{ color: 'var(--camp-red)' }}>{row.weight}</td>
-                        <td className="px-5 py-3 leading-relaxed">{row.detail}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+            <div className="camp-card camp-card--cream px-6 py-8 text-center">
+              <span className="camp-pill mb-4">Coming soon</span>
+              <p className="mx-auto max-w-xl text-sm leading-relaxed">
+                Our academic team is finalising the judging rubric. We'll publish the full criteria
+                and their weightings here, and send them to every team with your topic starter pack,
+                well before the camp — so you'll know exactly what the judges are looking for while
+                you're still building your poster.
+              </p>
             </div>
-            <p className="mt-5 max-w-2xl text-sm leading-relaxed">
-              Every judge will ask your team one question that is not on your poster. A team that read their
-              topic properly will handle it; a team that copied will not. That is where the marks separate.
-            </p>
           </div>
         </section>
 
