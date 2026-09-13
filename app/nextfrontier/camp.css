@@ -295,3 +295,46 @@ html.lenis body { height: auto; }
     transform: none !important;
   }
 }
+
+/* ---------- interactive wordmark ---------- */
+
+.camp-mark { cursor: pointer; }
+
+.camp-mark:focus-visible {
+  outline: 3px solid var(--camp-red);
+  outline-offset: 8px;
+  border-radius: 6px;
+}
+
+/* Chromatic split, driven by a custom property GSAP tweens. */
+.camp-mark [data-mark] {
+  --camp-glitch: 0px;
+  text-shadow:
+    calc(var(--camp-glitch) * -1) 0 var(--camp-red),
+    var(--camp-glitch) 0 var(--camp-blue-mid);
+}
+
+/* A filled duplicate of the word, drawn over the outlined one and wiped in. */
+.camp-fill {
+  position: relative;
+  display: inline-block;
+}
+
+.camp-fill::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: var(--camp-orange);
+  -webkit-text-stroke: 0;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.camp-mark.is-lit .camp-fill::after { clip-path: inset(0 0 0 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .camp-mark { cursor: default; }
+  .camp-fill::after { display: none; }
+  .camp-mark [data-mark] { text-shadow: none; }
+}

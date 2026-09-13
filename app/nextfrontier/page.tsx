@@ -6,6 +6,7 @@ import {
   Instagram, Clock, CheckCircle2, FileText,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import CampWordmark from '@/components/CampWordmark';
 import Footer from '@/components/Footer';
 import { absoluteUrl } from '@/lib/site';
 import { CAMP, INCLUSIONS, ACTIVITIES, OUTCOMES, SCHEDULE, FAQS } from '@/lib/camp';
@@ -64,23 +65,7 @@ export default function NextFrontierPage() {
                   Age {CAMP.ageRange}? You’re up next.
                 </span>
 
-                <h1 className="camp-display">
-                  <span className="block overflow-hidden text-6xl sm:text-8xl" style={{ color: 'var(--camp-orange)' }}>
-                    <span className="inline-block" data-anim data-anim-delay="80">
-                      Next<span style={{ color: 'var(--camp-red)' }}>//</span>
-                    </span>
-                  </span>
-                  <span className="block overflow-hidden text-6xl sm:text-8xl">
-                    <span
-                      className="camp-outline inline-block"
-                      data-anim
-                      data-anim-delay="180"
-                      style={{ WebkitTextStrokeColor: 'var(--camp-ink)' } as React.CSSProperties}
-                    >
-                      Frontier
-                    </span>
-                  </span>
-                </h1>
+                <CampWordmark />
 
                 <p className="camp-label mt-5 text-sm" data-anim data-anim-delay="280" style={{ letterSpacing: '0.22em' }}>
                   Quantum · AI &amp; Materials
