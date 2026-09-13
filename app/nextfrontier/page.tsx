@@ -6,6 +6,8 @@ import {
   Instagram, Clock, CheckCircle2, FileText,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import Reveal from '@/components/Reveal';
+import Parallax from '@/components/Parallax';
 import Footer from '@/components/Footer';
 import { absoluteUrl } from '@/lib/site';
 import { CAMP, INCLUSIONS, ACTIVITIES, OUTCOMES, SCHEDULE, FAQS } from '@/lib/camp';
@@ -34,8 +36,8 @@ export const metadata: Metadata = {
 function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="mb-8">
-      <div className="camp-label mb-3" style={{ color: 'var(--camp-red)' }}>{eyebrow}</div>
-      <h2 className="camp-display text-3xl sm:text-4xl">{title}</h2>
+      <Reveal className="camp-label mb-3" style={{ color: 'var(--camp-red)' }}>{eyebrow}</Reveal>
+      <Reveal as="h2" delay={90} className="camp-display text-3xl sm:text-4xl">{title}</Reveal>
     </div>
   );
 }
@@ -60,11 +62,13 @@ export default function NextFrontierPage() {
               </div>
 
               <div className="px-5 py-10 text-center sm:px-10 sm:py-14">
-                <span className="camp-pill mb-6" style={{ background: 'var(--camp-red)', color: '#fff' }}>
-                  Age {CAMP.ageRange}? You’re up next.
-                </span>
+                <Reveal direction="scale">
+                  <span className="camp-pill mb-6" style={{ background: 'var(--camp-red)', color: '#fff' }}>
+                    Age {CAMP.ageRange}? You’re up next.
+                  </span>
+                </Reveal>
 
-                <h1 className="camp-display">
+                <Reveal as="h1" delay={120} className="camp-display">
                   <span className="block text-6xl sm:text-8xl" style={{ color: 'var(--camp-orange)' }}>
                     Next<span style={{ color: 'var(--camp-red)' }}>//</span>
                   </span>
@@ -74,23 +78,23 @@ export default function NextFrontierPage() {
                   >
                     Frontier
                   </span>
-                </h1>
+                </Reveal>
 
-                <p className="camp-label mt-5 text-sm" style={{ letterSpacing: '0.22em' }}>
+                <Reveal as="p" delay={220} className="camp-label mt-5 text-sm" style={{ letterSpacing: '0.22em' }}>
                   Quantum · AI &amp; Materials
-                </p>
-                <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed">
+                </Reveal>
+                <Reveal as="p" delay={300} className="mx-auto mt-4 max-w-xl text-base leading-relaxed">
                   A two-day science camp on a university campus. Real labs, real lecturers, and a poster
                   competition where your team defends its own science.
-                </p>
+                </Reveal>
 
-                <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <Reveal delay={380} className="mt-8 flex flex-wrap justify-center gap-3">
                   <a href={CAMP.formUrl} target="_blank" rel="noopener noreferrer" className="camp-btn camp-btn--primary">
                     Register now <ArrowRight size={16} />
                   </a>
                   <a href="#programme" className="camp-btn camp-btn--ghost">See the programme</a>
-                </div>
-                <p className="mt-4 text-sm font-semibold">Registration closes {CAMP.registrationCloses}</p>
+                </Reveal>
+                <Reveal as="p" delay={460} className="mt-4 text-sm font-semibold">Registration closes {CAMP.registrationCloses}</Reveal>
               </div>
             </div>
 
@@ -101,14 +105,14 @@ export default function NextFrontierPage() {
                 { icon: MapPin, label: 'Where', value: 'XMUM, Sepang' },
                 { icon: Wallet, label: 'Fee', value: `${CAMP.fee} all in` },
                 { icon: Users, label: 'Who', value: `Ages ${CAMP.ageRange} · ${CAMP.places} places` },
-              ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="camp-card camp-card--cream flex items-center gap-3 px-4 py-3">
+              ].map(({ icon: Icon, label, value }, i) => (
+                <Reveal key={label} delay={i * 80} className="camp-card camp-card--cream flex items-center gap-3 px-4 py-3">
                   <Icon size={20} style={{ color: 'var(--camp-red)' }} />
                   <div>
                     <div className="camp-label" style={{ color: 'var(--camp-blue)' }}>{label}</div>
                     <div className="text-sm font-bold">{value}</div>
                   </div>
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -123,11 +127,11 @@ export default function NextFrontierPage() {
               a subject people actually work in. Over two days you will:
             </p>
             <ul className="grid gap-4 sm:grid-cols-2">
-              {OUTCOMES.map(item => (
-                <li key={item} className="camp-card flex gap-3 px-5 py-4">
+              {OUTCOMES.map((item, i) => (
+                <Reveal as="li" key={item} delay={i * 70} className="camp-card flex gap-3 px-5 py-4">
                   <CheckCircle2 size={20} className="mt-0.5 flex-none" style={{ color: 'var(--camp-red)' }} />
                   <span className="text-sm leading-relaxed">{item}</span>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>
@@ -139,7 +143,7 @@ export default function NextFrontierPage() {
             <SectionHeading eyebrow="What happens" title="Four things you’ll do" />
             <div className="grid gap-5 sm:grid-cols-2">
               {ACTIVITIES.map((activity, i) => (
-                <article key={activity.title} className="camp-card px-6 py-6">
+                <Reveal as="article" key={activity.title} delay={i * 90} className="camp-card px-6 py-6">
                   <div
                     className="camp-display mb-2 text-4xl"
                     style={{ color: 'var(--camp-lilac-deep)' }}
@@ -149,7 +153,7 @@ export default function NextFrontierPage() {
                   </div>
                   <h3 className="camp-display mb-3 text-xl">{activity.title}</h3>
                   <p className="text-sm leading-relaxed">{activity.blurb}</p>
-                </article>
+                </Reveal>
               ))}
             </div>
 
@@ -184,8 +188,8 @@ export default function NextFrontierPage() {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
-              {SCHEDULE.map(day => (
-                <div key={day.day} className="camp-card px-6 py-6">
+              {SCHEDULE.map((day, i) => (
+                <Reveal key={day.day} delay={i * 120} direction={i === 0 ? 'left' : 'right'} className="camp-card px-6 py-6">
                   <div className="camp-label mb-1" style={{ color: 'var(--camp-red)' }}>{day.day}</div>
                   <h3 className="camp-display mb-4 text-xl">{day.date}</h3>
                   <hr className="camp-rule mb-4" />
@@ -197,7 +201,7 @@ export default function NextFrontierPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </Reveal>
               ))}
             </div>
 
@@ -211,7 +215,7 @@ export default function NextFrontierPage() {
         {/* ---------------- fee ---------------- */}
         <section className="px-4 py-16" style={{ background: 'var(--camp-blue)' }}>
           <div className="mx-auto max-w-5xl">
-            <div className="camp-tape px-6 py-10 sm:px-10">
+            <Reveal direction="scale" className="camp-tape px-6 py-10 sm:px-10">
               <div className="text-center">
                 <div className="camp-label mb-2" style={{ color: 'var(--camp-blue)' }}>Everything included</div>
                 <div className="camp-display text-6xl" style={{ color: 'var(--camp-red)' }}>{CAMP.fee}</div>
@@ -231,7 +235,7 @@ export default function NextFrontierPage() {
                 registering — the last page of the form has the bank details and asks you to upload
                 your receipt.
               </p>
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -240,7 +244,7 @@ export default function NextFrontierPage() {
           <div className="mx-auto max-w-5xl">
             <SectionHeading eyebrow="The competition" title="Pick a question. Defend your answer." />
             <div className="grid gap-6 md:grid-cols-[1.4fr_1fr]">
-              <div className="camp-card camp-card--cream px-6 py-6">
+              <Reveal direction="left" className="camp-card camp-card--cream px-6 py-6">
                 <p className="text-sm leading-relaxed">
                   There are 24 questions across quantum physics, artificial intelligence and materials, and{' '}
                   <strong>none of them has a settled answer.</strong> Your poster has to show what is already
@@ -259,9 +263,9 @@ export default function NextFrontierPage() {
                 <Link href="/nextfrontier/topics" className="camp-btn camp-btn--secondary mt-6">
                   See all 24 topics <ArrowRight size={16} />
                 </Link>
-              </div>
+              </Reveal>
 
-              <div className="camp-card camp-card--lilac px-6 py-6">
+              <Reveal direction="right" delay={120} className="camp-card camp-card--lilac px-6 py-6">
                 <h3 className="camp-display mb-4 text-lg">How you’re judged</h3>
                 <span className="camp-pill mb-4">Rubric coming soon</span>
                 <p className="text-sm leading-relaxed">
@@ -269,7 +273,7 @@ export default function NextFrontierPage() {
                   topics page and send them to every team with your starter pack, well before the
                   camp.
                 </p>
-              </div>
+              </Reveal>
             </div>
           </div>
         </section>
@@ -279,7 +283,7 @@ export default function NextFrontierPage() {
           <div className="mx-auto max-w-5xl">
             <SectionHeading eyebrow="Sign up" title="How to register" />
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="camp-card px-6 py-6">
+              <Reveal direction="left" className="camp-card px-6 py-6">
                 <h3 className="camp-display mb-4 text-lg">Four steps</h3>
                 <ol className="space-y-4 text-sm leading-relaxed">
                   <li><strong>1.</strong> Form a team of {CAMP.teamSize} and agree your team name. All three of
@@ -290,9 +294,9 @@ export default function NextFrontierPage() {
                   <li><strong>4.</strong> Pay the {CAMP.fee} by bank transfer on the last page of the form and
                     upload your receipt. We'll confirm your place by email once we've checked it.</li>
                 </ol>
-              </div>
+              </Reveal>
 
-              <div className="camp-card camp-card--cream px-6 py-6">
+              <Reveal direction="right" delay={120} className="camp-card camp-card--cream px-6 py-6">
                 <h3 className="camp-display mb-4 text-lg">Have these ready</h3>
                 <ul className="space-y-2.5 text-sm leading-relaxed">
                   <li>· A Google account — the form asks you to upload files</li>
@@ -317,7 +321,7 @@ export default function NextFrontierPage() {
                 <p className="mt-4 text-center text-xs font-semibold">
                   Closes {CAMP.registrationCloses}
                 </p>
-              </div>
+              </Reveal>
             </div>
           </div>
         </section>
@@ -326,15 +330,17 @@ export default function NextFrontierPage() {
         <section className="px-4 py-16">
           <div className="mx-auto max-w-3xl">
             <SectionHeading eyebrow="Spread the word" title="The poster" />
-            <div className="camp-card overflow-hidden p-3">
-              <Image
+            <Reveal direction="scale">
+              <Parallax strength={0.05} className="camp-card overflow-hidden p-3">
+                <Image
                 src="/images/nextfrontier/poster.jpeg"
                 alt={`${CAMP.name} ${CAMP.year} camp poster: ${CAMP.dates}, ages ${CAMP.ageRange}, ${CAMP.fee}, accommodation and meals included`}
                 width={1587}
                 height={2245}
-                className="h-auto w-full rounded"
-              />
-            </div>
+                  className="h-auto w-full rounded"
+                />
+              </Parallax>
+            </Reveal>
             <p className="mt-4 text-center text-sm">
               Printing this for your school noticeboard? Please do.
             </p>
@@ -346,11 +352,11 @@ export default function NextFrontierPage() {
           <div className="mx-auto max-w-3xl">
             <SectionHeading eyebrow="Questions" title="Before you ask" />
             <div className="space-y-3">
-              {FAQS.map(faq => (
-                <details key={faq.q} className="camp-card px-5 py-4">
+              {FAQS.map((faq, i) => (
+                <Reveal as="details" key={faq.q} delay={Math.min(i, 6) * 50} className="camp-card px-5 py-4">
                   <summary className="cursor-pointer text-sm font-bold">{faq.q}</summary>
                   <p className="mt-3 text-sm leading-relaxed">{faq.a}</p>
-                </details>
+                </Reveal>
               ))}
             </div>
           </div>

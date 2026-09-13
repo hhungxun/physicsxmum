@@ -238,3 +238,44 @@
     transition: none;
   }
 }
+
+/* ---------- scroll reveals ----------
+ *
+ * The hidden state is gated on `.camp-js`, added to <html> by an inline script
+ * before paint. No JavaScript means the class never lands, so nothing is hidden
+ * and the page reads normally — this is a static export, and content that needs
+ * JS to become visible is content that can disappear.
+ */
+
+.camp-reveal {
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.camp-js .camp-reveal { opacity: 0; }
+.camp-js .camp-reveal--up { transform: translate3d(0, 30px, 0); }
+.camp-js .camp-reveal--left { transform: translate3d(-30px, 0, 0); }
+.camp-js .camp-reveal--right { transform: translate3d(30px, 0, 0); }
+.camp-js .camp-reveal--scale { transform: scale(0.95); }
+
+.camp-js .camp-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Failsafe — see the note in layout.tsx. If hydration never lands, show everything. */
+.camp-reveal-all .camp-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .camp-js .camp-reveal,
+  .camp-js .camp-reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    transition-delay: 0ms !important;
+  }
+}
