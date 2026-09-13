@@ -71,6 +71,7 @@ His research spans the CMS experiment at CERN, where he contributed to dark matt
 
 ## Honours and Awards
 
+- Breakthrough Prize in Fundamental Physics 2026: Muon g-2 Collaboration (CERN, BNL, Fermilab)
 - Breakthrough Prize in Fundamental Physics 2025: CMS Collaboration at CERN, LHC
 - Best Poster Award 2025: Simon Eidelman School on Muon Dipole Moments and Hadronic Effects
 - Fundamental Physics Scholarship Award 2015: CMS Experiment at CERN
