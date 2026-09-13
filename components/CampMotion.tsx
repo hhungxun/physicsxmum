@@ -12,6 +12,8 @@
  *   data-counter="60"    counts up on entry (data-counter-prefix / -suffix)
  *   data-progress        fills as the page scrolls
  *
+ * The sticky register bar is deliberately NOT handled here — see layout.tsx.
+ *
  * Everything is gated behind `.camp-js`, which the inline script in layout.tsx only
  * adds when the viewer has not asked for reduced motion. No JS, reduced motion, or a
  * failed chunk all end at the same place: the plain, fully visible page.
@@ -160,16 +162,6 @@ export default function CampMotion() {
             btn.addEventListener('pointermove', move);
             btn.addEventListener('pointerleave', reset);
           });
-
-          /* ---------- sticky register bar ---------- */
-          const sticky = document.querySelector<HTMLElement>('[data-sticky-cta]');
-          if (sticky) {
-            ScrollTrigger.create({
-              start: 'top -600',
-              end: 'max',
-              onToggle: self => sticky.classList.toggle('is-shown', self.isActive),
-            });
-          }
 
           /* ---------- scroll progress ---------- */
           const bar = document.querySelector<HTMLElement>('[data-progress]');

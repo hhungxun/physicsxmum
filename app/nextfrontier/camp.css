@@ -9,7 +9,13 @@
  * Colours sampled from 02-promotion/poster.jpeg.
  */
 
-.camp {
+/* The palette must also reach the fixed-position chrome (progress bar, sticky
+   CTA), which renders in the layout OUTSIDE main.camp — scoping these to .camp
+   alone left every var() there unresolved, so the register button had no
+   background and the progress bar no colour. */
+.camp,
+.camp-sticky,
+.camp-progress {
   --camp-blue: #1b47a8;
   --camp-blue-deep: #12306f;
   --camp-blue-mid: #3f6ed0;
@@ -21,7 +27,9 @@
   --camp-red: #e03127;
   --camp-yellow: #ffd429;
   --camp-ink: #14213d;
+}
 
+.camp {
   background: var(--camp-cream);
   color: var(--camp-ink);
 }
@@ -397,25 +405,125 @@ html.lenis body { height: auto; }
 
 .camp-faq__body { overflow: hidden; }
 
-/* ---------- sticky register bar ---------- */
+/* ---------- sticky register bar: liquid glass ---------- */
 
 .camp-sticky {
   position: fixed;
   left: 50%;
-  bottom: 1rem;
+  bottom: 1.1rem;
   z-index: 55;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.6rem 0.7rem 0.6rem 1.2rem;
-  border: 3px solid var(--camp-ink);
+  gap: 0.9rem;
+  padding: 0.5rem 0.55rem 0.5rem 1.25rem;
   border-radius: 999px;
-  background: var(--camp-cream);
-  box-shadow: 5px 6px rgba(20, 33, 61, 0.3);
   white-space: nowrap;
+  isolation: isolate;
+
+  /* Fallback for anything without backdrop-filter: stay opaque and readable
+     rather than washing the text out over whatever is behind. */
+  background: var(--camp-cream);
+  border: 1px solid rgba(20, 33, 61, 0.14);
+  box-shadow: 0 10px 30px rgba(20, 33, 61, 0.22);
+
   opacity: 0;
   transform: translate(-50%, 140%);
   pointer-events: none;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .camp-sticky {
+    background: rgba(255, 244, 220, 0.55);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+      0 10px 34px rgba(20, 33, 61, 0.20),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.28);
+  }
+}
+
+/* Specular sheen sitting above the blur. */
+.camp-sticky::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.06) 38%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  z-index: -1;
+}
+
+.camp-sticky__text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--camp-ink);
+}
+
+/* The button itself: tinted glass, so it still reads as the call to action. */
+.camp-sticky__btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.62rem 1.3rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  background: var(--camp-red);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .camp-sticky__btn {
+    background: rgba(224, 49, 39, 0.82);
+    -webkit-backdrop-filter: blur(8px) saturate(160%);
+    backdrop-filter: blur(8px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 4px 16px rgba(224, 49, 39, 0.38);
+  }
+}
+
+.camp-sticky__btn:hover { transform: translateY(-1px); }
+
+/* Light sweeping across the button — the "liquid" part. */
+.camp-sticky__btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.camp-sticky.is-shown .camp-sticky__btn::after {
+  animation: camp-sheen 4.5s ease-in-out 1.2s infinite;
+}
+
+@keyframes camp-sheen {
+  0%   { left: -60%; }
+  35%  { left: 130%; }
+  100% { left: 130%; }
 }
 
 .camp-sticky.is-shown {
@@ -427,7 +535,6 @@ html.lenis body { height: auto; }
     transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.camp-sticky__text { font-size: 0.78rem; font-weight: 700; }
 
 @media (max-width: 560px) {
   .camp-sticky__text { display: none; }
@@ -437,4 +544,5 @@ html.lenis body { height: auto; }
 @media (prefers-reduced-motion: reduce) {
   .camp-card:hover { transform: none; }
   .camp-sticky { transition: none; }
+  .camp-sticky.is-shown .camp-sticky__btn::after { animation: none; }
 }

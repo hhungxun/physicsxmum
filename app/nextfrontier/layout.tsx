@@ -22,6 +22,24 @@ const ARM = `
     if (!window.__campMotion) doc.classList.add('camp-reveal-all');
   }, 2500);
 })();
+
+// The sticky register bar is handled here, not in CampMotion, so it does not
+// depend on GSAP. CampMotion bails entirely under reduced motion, which would
+// have denied those visitors the one persistent call to action on the page.
+(function () {
+  var bar = document.querySelector('[data-sticky-cta]');
+  if (!bar) {
+    document.addEventListener('DOMContentLoaded', arguments.callee);
+    return;
+  }
+  var shown = false;
+  var onScroll = function () {
+    var past = window.scrollY > 600;
+    if (past !== shown) { shown = past; bar.classList.toggle('is-shown', past); }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
 `;
 
 export default function CampLayout({ children }: { children: React.ReactNode }) {
@@ -37,8 +55,7 @@ export default function CampLayout({ children }: { children: React.ReactNode }) 
           href={CAMP.formUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="camp-btn camp-btn--primary"
-          style={{ padding: '0.6rem 1.2rem', fontSize: '0.8rem', boxShadow: 'none' }}
+          className="camp-sticky__btn"
         >
           Register
         </a>
