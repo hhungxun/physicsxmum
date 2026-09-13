@@ -338,3 +338,103 @@ html.lenis body { height: auto; }
   .camp-fill::after { display: none; }
   .camp-mark [data-mark] { text-shadow: none; }
 }
+
+/* ---------- hover states ---------- */
+
+/* GSAP clears its inline transform when an entry animation finishes (see
+   CampMotion), which is what lets these CSS hover transforms take effect. */
+.camp-card,
+.camp-btn {
+  transition:
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.camp-card:hover {
+  transform: translate(-2px, -3px);
+  box-shadow: 8px 10px rgba(20, 33, 61, 0.28);
+}
+
+/* Schedule rows pick out under the cursor. */
+.camp-row {
+  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+  margin-inline: -0.4rem;
+  transition: background 0.15s;
+}
+
+.camp-row:hover { background: var(--camp-cream); }
+
+/* Magnetic buttons are driven by GSAP writing transform directly. Leaving the CSS
+   transition on transform makes both ease the same property and the button lags
+   behind the cursor. */
+.camp-btn[data-magnetic] { transition: box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1); }
+.camp-btn[data-magnetic]:hover,
+.camp-btn[data-magnetic]:active { transform: none; }
+
+/* ---------- FAQ accordion ---------- */
+
+.camp-faq summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.camp-faq summary::-webkit-details-marker { display: none; }
+
+.camp-faq summary::after {
+  content: '+';
+  font-weight: 800;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--camp-red);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.camp-faq[open] summary::after { transform: rotate(135deg); }
+
+.camp-faq__body { overflow: hidden; }
+
+/* ---------- sticky register bar ---------- */
+
+.camp-sticky {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.7rem 0.6rem 1.2rem;
+  border: 3px solid var(--camp-ink);
+  border-radius: 999px;
+  background: var(--camp-cream);
+  box-shadow: 5px 6px rgba(20, 33, 61, 0.3);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 140%);
+  pointer-events: none;
+}
+
+.camp-sticky.is-shown {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+  transition:
+    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.camp-sticky__text { font-size: 0.78rem; font-weight: 700; }
+
+@media (max-width: 560px) {
+  .camp-sticky__text { display: none; }
+  .camp-sticky { padding: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .camp-card:hover { transform: none; }
+  .camp-sticky { transition: none; }
+}

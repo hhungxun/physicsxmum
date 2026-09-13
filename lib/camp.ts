@@ -60,7 +60,7 @@ export const ACTIVITIES = [
   {
     title: 'Poster competition',
     blurb:
-      'Your team of three picks a question from our topic list, researches it before camp, and defends it in person to XMUM physicists. Not a summary of what is known — your own answer, with your reasoning.',
+      'Your team of three picks a question from our topic list, researches it before camp, and defends it in person to XMUM physicists.',
   },
   {
     title: 'Campus station games',
@@ -70,7 +70,7 @@ export const ACTIVITIES = [
   {
     title: 'Talks by XMUM lecturers',
     blurb:
-      'The research that does not fit in a textbook, from the people doing it. A look at what studying physics at university actually involves.',
+      'The research that does not fit in a textbook, from the people doing it.',
   },
   {
     title: 'Stargazing',
@@ -135,7 +135,7 @@ export const FAQS = [
   },
   {
     q: 'Is the team of three the same as my group on the day?',
-    a: 'No, and this catches people out. Your team of three is who you research and present the poster with. On the day you will also be placed in a larger group for the campus station games, mixed with people from other teams.',
+    a: 'No. Your team of three is who you research and present the poster with. On the day you are also placed in a larger group for the campus station games, mixed with other teams.',
   },
   {
     q: 'What does the fee cover?',
@@ -144,10 +144,6 @@ export const FAQS = [
   {
     q: 'When do I pay?',
     a: `You pay when you register. The last page of the form has the bank transfer details, and you upload your payment receipt as part of the form — so have the ${CAMP.fee} ready before you start. Your place is confirmed once we've checked your payment.`,
-  },
-  {
-    q: 'What do I need before I start the registration form?',
-    a: `Around ten minutes, and a Google account (the form asks you to upload files). Have ready: your signed parental acknowledgement scanned or photographed, your IC or passport number, a parent or guardian's phone number, your two teammates' names and email addresses, and ${CAMP.fee} to transfer — you upload the receipt before you submit.`,
   },
   {
     q: 'Do my parents have to sign anything?',

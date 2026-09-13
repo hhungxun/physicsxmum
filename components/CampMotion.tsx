@@ -82,6 +82,10 @@ export default function CampMotion() {
                 ease: 'expo.out',
                 delay: Number(el.dataset.animDelay ?? 0) / 1000,
                 scrollTrigger: { trigger: el, start: 'top 90%' },
+                // Drop the inline transform afterwards. GSAP's leftover
+                // translate(0,0) outranks any CSS :hover transform, which would
+                // otherwise kill the card lift on every animated element.
+                onComplete: () => gsap.set(el, { clearProps: 'transform' }),
               },
             );
           });
@@ -114,6 +118,58 @@ export default function CampMotion() {
               onUpdate: () => { el.textContent = prefix + Math.round(obj.v) + suffix; },
             });
           });
+
+          /* ---------- FAQ accordion ---------- */
+          // <details> snaps open and shut. Take over the summary click so both
+          // directions can be animated, and keep `open` in sync for a11y.
+          document.querySelectorAll<HTMLDetailsElement>('.camp-faq').forEach(d => {
+            const summary = d.querySelector('summary');
+            const body = d.querySelector<HTMLElement>('.camp-faq__body');
+            if (!summary || !body) return;
+
+            summary.addEventListener('click', e => {
+              e.preventDefault();
+              if (gsap.isTweening(body)) return;
+
+              if (d.open) {
+                gsap.to(body, {
+                  height: 0, opacity: 0, duration: 0.28, ease: 'power2.in',
+                  onComplete: () => { d.open = false; gsap.set(body, { height: 'auto' }); },
+                });
+              } else {
+                d.open = true;
+                gsap.fromTo(body,
+                  { height: 0, opacity: 0 },
+                  { height: 'auto', opacity: 1, duration: 0.42, ease: 'expo.out' });
+              }
+            });
+          });
+
+          /* ---------- magnetic buttons ---------- */
+          document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach(btn => {
+            const strength = 0.32;
+            const move = (e: PointerEvent) => {
+              const r = btn.getBoundingClientRect();
+              gsap.to(btn, {
+                x: (e.clientX - (r.left + r.width / 2)) * strength,
+                y: (e.clientY - (r.top + r.height / 2)) * strength,
+                duration: 0.4, ease: 'power3.out',
+              });
+            };
+            const reset = () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+            btn.addEventListener('pointermove', move);
+            btn.addEventListener('pointerleave', reset);
+          });
+
+          /* ---------- sticky register bar ---------- */
+          const sticky = document.querySelector<HTMLElement>('[data-sticky-cta]');
+          if (sticky) {
+            ScrollTrigger.create({
+              start: 'top -600',
+              end: 'max',
+              onToggle: self => sticky.classList.toggle('is-shown', self.isActive),
+            });
+          }
 
           /* ---------- scroll progress ---------- */
           const bar = document.querySelector<HTMLElement>('[data-progress]');

@@ -1,5 +1,6 @@
 import './camp.css';
 import CampMotion from '@/components/CampMotion';
+import { CAMP } from '@/lib/camp';
 
 /**
  * Arms the motion before first paint.
@@ -29,6 +30,19 @@ export default function CampLayout({ children }: { children: React.ReactNode }) 
       <script dangerouslySetInnerHTML={{ __html: ARM }} />
       <div className="camp-progress" data-progress aria-hidden="true" />
       {children}
+      {/* Slides in once the hero is well out of view. */}
+      <div className="camp-sticky" data-sticky-cta>
+        <span className="camp-sticky__text">Closes {CAMP.registrationClosesShort}</span>
+        <a
+          href={CAMP.formUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="camp-btn camp-btn--primary"
+          style={{ padding: '0.6rem 1.2rem', fontSize: '0.8rem', boxShadow: 'none' }}
+        >
+          Register
+        </a>
+      </div>
       <CampMotion />
     </>
   );

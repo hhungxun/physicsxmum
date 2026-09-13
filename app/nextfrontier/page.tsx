@@ -76,7 +76,13 @@ export default function NextFrontierPage() {
                 </p>
 
                 <div className="mt-8 flex flex-wrap justify-center gap-3" data-anim data-anim-delay="420">
-                  <a href={CAMP.formUrl} target="_blank" rel="noopener noreferrer" className="camp-btn camp-btn--primary">
+                  <a
+                    href={CAMP.formUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="camp-btn camp-btn--primary"
+                    data-magnetic
+                  >
                     Register now <ArrowRight size={16} />
                   </a>
                   <a href="#programme" className="camp-btn camp-btn--ghost">See the programme</a>
@@ -123,8 +129,7 @@ export default function NextFrontierPage() {
           <div className="mx-auto max-w-5xl">
             <SectionHeading eyebrow="Why come" title="What you’ll take home" />
             <p className="mb-8 max-w-2xl text-base leading-relaxed" data-anim>
-              This camp exists to show you what physics looks like after school — not as a syllabus, but as
-              a subject people actually work in. Over two days you will:
+              Two days of physics as the people who do it actually practise it. You will:
             </p>
             <ul className="grid gap-4 sm:grid-cols-2">
               {OUTCOMES.map((item, i) => (
@@ -200,7 +205,7 @@ export default function NextFrontierPage() {
                   <hr className="camp-rule mb-4" />
                   <ul className="space-y-2.5">
                     {day.items.map(item => (
-                      <li key={item.time + item.event} className="flex gap-4 text-sm">
+                      <li key={item.time + item.event} className="camp-row flex gap-4 text-sm">
                         <span className="camp-time w-14 flex-none">{item.time}</span>
                         <span>{item.event}</span>
                       </li>
@@ -211,8 +216,7 @@ export default function NextFrontierPage() {
             </div>
 
             <p className="mt-6 max-w-2xl text-sm leading-relaxed" data-anim style={{ color: '#4a5568' }}>
-              Times are indicative and rooms are confirmed in your joining pack, which we send in November.
-              The shape of the two days won’t change.
+              Times are indicative. Rooms are confirmed in your joining pack, sent in November.
             </p>
           </div>
         </section>
@@ -267,11 +271,6 @@ export default function NextFrontierPage() {
                   allocate in order of submission and confirm your topic by email, with a starter pack, within
                   two weeks of registration closing.
                 </p>
-                <p className="mt-4 text-sm leading-relaxed">
-                  Every question carries a difficulty label and the physics a good poster needs to engage
-                  with. <strong>Difficulty doesn’t affect your score</strong> — a Foundation question done
-                  brilliantly beats a Challenging one done badly.
-                </p>
                 <Link href="/nextfrontier/topics" className="camp-btn camp-btn--secondary mt-6">
                   See all 24 topics <ArrowRight size={16} />
                 </Link>
@@ -281,9 +280,8 @@ export default function NextFrontierPage() {
                 <h3 className="camp-display mb-4 text-lg">How you’re judged</h3>
                 <span className="camp-pill mb-4">Rubric coming soon</span>
                 <p className="text-sm leading-relaxed">
-                  Our academic team is finalising the judging criteria. We’ll publish them on the
-                  topics page and send them to every team with your starter pack, well before the
-                  camp.
+                  Still being finalised. We’ll publish the criteria on the topics page and send them
+                  out with your starter pack, well before the camp.
                 </p>
               </div>
             </div>
@@ -320,7 +318,13 @@ export default function NextFrontierPage() {
                   <li>· <strong>{CAMP.fee} to transfer, and your receipt to upload</strong></li>
                 </ul>
                 <div className="mt-6 flex flex-col gap-3">
-                  <a href={CAMP.formUrl} target="_blank" rel="noopener noreferrer" className="camp-btn camp-btn--primary">
+                  <a
+                    href={CAMP.formUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="camp-btn camp-btn--primary"
+                    data-magnetic
+                  >
                     Open the registration form <ArrowRight size={16} />
                   </a>
                   <a href="/nextfrontier/parental-acknowledgement-form.pdf" className="camp-btn camp-btn--ghost" download>
@@ -367,12 +371,14 @@ export default function NextFrontierPage() {
               {FAQS.map((faq, i) => (
                 <details
                   key={faq.q}
-                  className="camp-card px-5 py-4"
+                  className="camp-card camp-faq px-5 py-4"
                   data-anim
                   data-anim-delay={Math.min(i, 6) * 60}
                 >
                   <summary className="cursor-pointer text-sm font-bold">{faq.q}</summary>
-                  <p className="mt-3 text-sm leading-relaxed">{faq.a}</p>
+                  <div className="camp-faq__body">
+                    <p className="mt-3 text-sm leading-relaxed">{faq.a}</p>
+                  </div>
                 </details>
               ))}
             </div>
@@ -384,8 +390,8 @@ export default function NextFrontierPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="camp-display text-3xl" data-split style={{ color: '#fff' }}>Still not sure?</h2>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed" data-anim style={{ color: 'var(--camp-lilac)' }}>
-              Ask us anything — whether your school can send a group, whether you can come without a full
-              team, or what the weekend is really like.
+              Ask us anything — whether your school can send a group, how to find teammates, or what
+              the weekend is actually like.
             </p>
             <div className="mt-7 flex flex-wrap justify-center gap-3" data-anim data-anim-delay="120">
               <a href={`mailto:${CAMP.email}`} className="camp-btn camp-btn--secondary">
