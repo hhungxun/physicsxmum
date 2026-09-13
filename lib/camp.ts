@@ -131,7 +131,7 @@ export const FAQS = [
   },
   {
     q: 'Do I need a team to register?',
-    a: `Yes — you compete in the poster competition in a team of ${CAMP.teamSize}. Each of you fills in the registration form separately, but you must all type the same team name, exactly. Agree it before you start. If you register alone or as a pair, tell us on the form and we will match you with others.`,
+    a: `Yes. We only accept complete teams of ${CAMP.teamSize} — all three of you must register, each filling in the form separately, and you must all type the same team name exactly. Agree it before you start. Don't have a team? Email us and we'll try to pair you up with others looking for teammates.`,
   },
   {
     q: 'Is the team of three the same as my group on the day?',
@@ -143,11 +143,11 @@ export const FAQS = [
   },
   {
     q: 'When do I pay?',
-    a: 'Not when you register. Registration is free to submit. Once we confirm your place, we will email you payment instructions and a QR code. Your place is confirmed when payment reaches us.',
+    a: `You pay when you register. The last page of the form has the bank transfer details, and you upload your payment receipt as part of the form — so have the ${CAMP.fee} ready before you start. Your place is confirmed once we've checked your payment.`,
   },
   {
     q: 'What do I need before I start the registration form?',
-    a: 'Around eight minutes, a Google account (the form asks you to upload your signed parental acknowledgement), your IC or passport number, a parent or guardian’s phone number, and your two teammates’ names and email addresses.',
+    a: `Around ten minutes, and a Google account (the form asks you to upload files). Have ready: your signed parental acknowledgement scanned or photographed, your IC or passport number, a parent or guardian's phone number, your two teammates' names and email addresses, and ${CAMP.fee} to transfer — you upload the receipt before you submit.`,
   },
   {
     q: 'Do my parents have to sign anything?',

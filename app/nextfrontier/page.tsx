@@ -227,8 +227,9 @@ export default function NextFrontierPage() {
                 ))}
               </ul>
               <p className="mx-auto mt-7 max-w-2xl text-center text-sm leading-relaxed">
-                There is nothing further to pay during the camp. You don’t pay when you register — once we
-                confirm your place we’ll email you payment instructions.
+                There is nothing further to pay during the camp. You pay the {CAMP.fee} as part of
+                registering — the last page of the form has the bank details and asks you to upload
+                your receipt.
               </p>
             </div>
           </div>
@@ -291,19 +292,21 @@ export default function NextFrontierPage() {
                   <li><strong>2.</strong> Download the parental acknowledgement below and get it signed.</li>
                   <li><strong>3.</strong> Each of you fills in the registration form separately. It takes about
                     eight minutes.</li>
-                  <li><strong>4.</strong> We confirm your place by email, with payment instructions. Your place
-                    is held once payment reaches us.</li>
+                  <li><strong>4.</strong> Pay the {CAMP.fee} by bank transfer on the last page of the form and
+                    upload your receipt. We'll confirm your place by email once we've checked it.</li>
                 </ol>
               </div>
 
               <div className="camp-card camp-card--cream px-6 py-6">
                 <h3 className="camp-display mb-4 text-lg">Have these ready</h3>
                 <ul className="space-y-2.5 text-sm leading-relaxed">
-                  <li>· A Google account — the form asks you to upload your signed parental form</li>
+                  <li>· A Google account — the form asks you to upload files</li>
+                  <li>· Your signed parental acknowledgement, scanned or photographed</li>
                   <li>· Your IC or passport number</li>
                   <li>· A parent or guardian’s phone number</li>
                   <li>· Your two teammates’ names and email addresses</li>
                   <li>· Your three topic choices, agreed with your team</li>
+                  <li>· <strong>{CAMP.fee} to transfer, and your receipt to upload</strong></li>
                 </ul>
                 <div className="mt-6 flex flex-col gap-3">
                   <a href={CAMP.formUrl} target="_blank" rel="noopener noreferrer" className="camp-btn camp-btn--primary">
