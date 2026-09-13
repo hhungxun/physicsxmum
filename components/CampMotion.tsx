@@ -10,7 +10,6 @@
  *   data-split           heading split into words that rise from behind a mask
  *   data-parallax="0.2"  scrub-linked drift against the scroll
  *   data-counter="60"    counts up on entry (data-counter-prefix / -suffix)
- *   data-htrack          section pins and its inner track scrolls sideways
  *   data-progress        fills as the page scrolls
  *
  * Everything is gated behind `.camp-js`, which the inline script in layout.tsx only
@@ -19,8 +18,6 @@
  */
 
 import { useEffect } from 'react';
-
-const DESKTOP = 900;
 
 export default function CampMotion() {
   useEffect(() => {
@@ -55,6 +52,10 @@ export default function CampMotion() {
               .split(/\s+/)
               .map(w => `<span class="camp-w"><span class="camp-w__i">${w}</span></span>`)
               .join(' ');
+
+            // The heading is hidden by CSS until here; show it and let the mask do
+            // the rest, so only one thing ever writes a transform to a word.
+            gsap.set(el, { opacity: 1 });
 
             gsap.fromTo(
               el.querySelectorAll('.camp-w__i'),
@@ -113,30 +114,6 @@ export default function CampMotion() {
               onUpdate: () => { el.textContent = prefix + Math.round(obj.v) + suffix; },
             });
           });
-
-          /* ---------- pinned horizontal track ---------- */
-          if (window.innerWidth >= DESKTOP) {
-            document.querySelectorAll<HTMLElement>('[data-htrack]').forEach(section => {
-              const track = section.querySelector<HTMLElement>('[data-htrack-inner]');
-              if (!track) return;
-              const distance = () => track.scrollWidth - window.innerWidth + 80;
-              if (distance() <= 0) return;
-
-              gsap.to(track, {
-                x: () => -distance(),
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: section,
-                  start: 'top top',
-                  end: () => '+=' + distance(),
-                  pin: true,
-                  scrub: 0.8,
-                  invalidateOnRefresh: true,
-                  anticipatePin: 1,
-                },
-              });
-            });
-          }
 
           /* ---------- scroll progress ---------- */
           const bar = document.querySelector<HTMLElement>('[data-progress]');

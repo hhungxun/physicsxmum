@@ -152,43 +152,32 @@ export default function NextFrontierPage() {
           </div>
         </section>
 
-        {/* ---------------- activities: pinned, scrolls sideways ----------------
-          *
-          * The heading sits outside the pinned section on purpose. Inside it, the
-          * element stops moving relative to the viewport once pinning starts, so
-          * its reveal trigger never fires and the words stay behind their mask.
-          */}
-        <section className="px-4 pt-20 pb-6" style={{ background: 'var(--camp-lilac)' }}>
+        {/* ---------------- activities ---------------- */}
+        <section className="px-4 py-20" style={{ background: 'var(--camp-lilac)' }}>
           <div className="mx-auto max-w-5xl">
             <SectionHeading eyebrow="What happens" title="Four things you’ll do" />
-          </div>
-        </section>
-
-        <section
-          className="overflow-hidden pb-16"
-          style={{ background: 'var(--camp-lilac)' }}
-          data-htrack
-        >
-          <div className="camp-htrack" data-htrack-inner>
-            {ACTIVITIES.map((activity, i) => (
-              <article key={activity.title} className="camp-card px-6 py-7">
-                <div
-                  className="camp-display mb-2 text-5xl"
-                  style={{ color: 'var(--camp-lilac-deep)' }}
-                  aria-hidden="true"
+            <div className="grid gap-5 sm:grid-cols-2">
+              {ACTIVITIES.map((activity, i) => (
+                <article
+                  key={activity.title}
+                  className="camp-card px-6 py-7"
+                  data-anim
+                  data-anim-delay={i * 90}
                 >
-                  {String(i + 1).padStart(2, '0')}
-                </div>
-                <h3 className="camp-display mb-3 text-xl">{activity.title}</h3>
-                <p className="text-sm leading-relaxed">{activity.blurb}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+                  <div
+                    className="camp-display mb-2 text-5xl"
+                    style={{ color: 'var(--camp-lilac-deep)' }}
+                    aria-hidden="true"
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <h3 className="camp-display mb-3 text-xl">{activity.title}</h3>
+                  <p className="text-sm leading-relaxed">{activity.blurb}</p>
+                </article>
+              ))}
+            </div>
 
-        <section className="px-4 py-10" style={{ background: 'var(--camp-lilac)' }}>
-          <div className="mx-auto max-w-5xl">
-            <div className="camp-card camp-card--cream px-6 py-5" data-anim>
+            <div className="camp-card camp-card--cream mt-6 px-6 py-5" data-anim>
               <p className="text-sm leading-relaxed">
                 <strong>Two different groupings, so don’t mix them up.</strong> You register and compete in a
                 team of {CAMP.teamSize} — that’s who you build and present the poster with. On the day you’ll

@@ -260,14 +260,17 @@ html.lenis body { height: auto; }
 }
 
 .camp-w__i { display: inline-block; }
-.camp-js .camp-w__i { transform: translateY(115%); }
+
+/* Hide the heading, not the words: putting a transform on .camp-w__i here fights
+   the transform GSAP animates on the same element, and both end up stuck. */
+.camp-js [data-split] { opacity: 0; }
 
 /* Blocks pre-hidden so nothing flashes before the timeline is built. */
 .camp-js [data-anim] { opacity: 0; }
 
 /* Failsafe: if motion never initialises, show everything. */
 .camp-reveal-all [data-anim],
-.camp-reveal-all .camp-w__i {
+.camp-reveal-all [data-split] {
   opacity: 1 !important;
   transform: none !important;
 }
@@ -285,32 +288,10 @@ html.lenis body { height: auto; }
   background: var(--camp-red);
 }
 
-/* Pinned horizontal track. */
-.camp-htrack {
-  display: flex;
-  gap: 1.5rem;
-  padding-inline: 1rem;
-  width: max-content;
-  will-change: transform;
-}
-
-.camp-htrack > * {
-  width: 21rem;
-  flex: none;
-}
-
-@media (min-width: 900px) {
-  .camp-htrack > * { width: 26rem; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .camp-js [data-anim],
-  .camp-js .camp-w__i {
+  .camp-js [data-split] {
     opacity: 1 !important;
     transform: none !important;
-  }
-  .camp-htrack {
-    flex-wrap: wrap;
-    width: auto;
   }
 }
