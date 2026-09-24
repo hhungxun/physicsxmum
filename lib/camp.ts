@@ -26,8 +26,8 @@ export const CAMP = {
 
   fee: 'RM170',
   places: 60,
-  ageRange: '16–17',
-  eligibility: 'Pre-university and foundation students aged 16–17',
+  audience: 'High school students',
+  eligibility: 'High school students',
 
   teamSize: 3,
   registrationCloses: 'Sunday 8 November 2026',
@@ -127,7 +127,7 @@ export const SCHEDULE = [
 export const FAQS = [
   {
     q: 'Who can come?',
-    a: `Students aged ${CAMP.ageRange}, in pre-university or foundation programmes. There are ${CAMP.places} places.`,
+    a: `${CAMP.audience}. There are ${CAMP.places} places.`,
   },
   {
     q: 'Do I need a team to register?',

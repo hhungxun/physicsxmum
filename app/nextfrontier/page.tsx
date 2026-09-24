@@ -12,7 +12,7 @@ import { absoluteUrl } from '@/lib/site';
 import { CAMP, INCLUSIONS, ACTIVITIES, OUTCOMES, SCHEDULE, FAQS } from '@/lib/camp';
 
 const description =
-  `A two-day residential science camp at Xiamen University Malaysia for students aged ${CAMP.ageRange}. ` +
+  `A two-day residential science camp at Xiamen University Malaysia for high school students. ` +
   `${CAMP.datesLong}. Quantum, AI and materials — talks, campus games, stargazing and a poster competition. ` +
   `${CAMP.fee}, accommodation and meals included.`;
 
@@ -104,7 +104,7 @@ export default function NextFrontierPage() {
                 },
                 {
                   icon: Users, label: 'Who',
-                  value: <>Ages {CAMP.ageRange} · <span data-counter={CAMP.places}>{CAMP.places}</span> places</>,
+                  value: <>High school · <span data-counter={CAMP.places}>{CAMP.places}</span> places</>,
                 },
               ].map(({ icon: Icon, label, value }, i) => (
                 <div
@@ -350,7 +350,7 @@ export default function NextFrontierPage() {
               <div data-parallax="0.06">
                 <Image
                   src="/images/nextfrontier/poster.jpeg"
-                  alt={`${CAMP.name} ${CAMP.year} camp poster: ${CAMP.dates}, ages ${CAMP.ageRange}, ${CAMP.fee}, accommodation and meals included`}
+                  alt={`${CAMP.name} ${CAMP.year} camp poster: ${CAMP.dates}, high school students, ${CAMP.fee}, accommodation and meals included`}
                   width={1587}
                   height={2245}
                   className="h-auto w-full rounded"
