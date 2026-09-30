@@ -157,12 +157,7 @@ export default function CampWordmark() {
       <span className="block overflow-hidden text-6xl sm:text-8xl">
         <span className="inline-block" data-anim data-anim-delay="180">
           <span className="camp-fill" data-text={FRONTIER}>
-            <span
-              className="camp-outline"
-              style={{ WebkitTextStrokeColor: 'var(--camp-ink)' } as React.CSSProperties}
-            >
-              {FRONTIER}
-            </span>
+            <span className="camp-outline">{FRONTIER}</span>
           </span>
         </span>
       </span>
