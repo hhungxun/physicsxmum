@@ -267,9 +267,10 @@ export default function NextFrontierPage() {
                   known about the physics — and then give your team’s own answer, with your reasoning.
                 </p>
                 <p className="mt-4 text-sm leading-relaxed">
-                  You give us three choices when you register. Each question is capped at two teams, so we
-                  allocate in order of submission and confirm your topic by email, with a starter pack, within
-                  two weeks of registration closing.
+                  Registering as a team? Your team leader picks two choices. Registering on your own? You
+                  pick a track instead, and we assign a topic once you&apos;re placed in a team. Each question
+                  is capped at two teams, so we allocate in order of submission and confirm your topic by
+                  email, with a starter pack, within two weeks of registration closing.
                 </p>
                 <Link href="/nextfrontier/topics" className="camp-btn camp-btn--secondary mt-6">
                   See all 24 topics <ArrowRight size={16} />
@@ -296,11 +297,13 @@ export default function NextFrontierPage() {
               <div className="camp-card px-6 py-6" data-anim>
                 <h3 className="camp-display mb-4 text-lg">Four steps</h3>
                 <ol className="space-y-4 text-sm leading-relaxed">
-                  <li><strong>1.</strong> Form a team of {CAMP.teamSize} and agree your team name. All three of
-                    you must type it <strong>exactly</strong> the same way — capitals and numbers, no spaces.</li>
+                  <li><strong>1.</strong> Decide how you&apos;re registering. As a team of {CAMP.teamSize}:
+                    agree a team name and one team leader&apos;s email first, and all three of you type both
+                    <strong> exactly</strong> the same. On your own: you&apos;ll pick a track and we&apos;ll
+                    place you in a team.</li>
                   <li><strong>2.</strong> Download the parental acknowledgement below and get it signed.</li>
-                  <li><strong>3.</strong> Each of you fills in the registration form separately. It takes about
-                    eight minutes.</li>
+                  <li><strong>3.</strong> Fill in the registration form. It takes about ten minutes, and
+                    everyone fills it in for themselves — including each member of a team.</li>
                   <li><strong>4.</strong> Pay the {CAMP.fee} by bank transfer on the last page of the form and
                     upload your receipt. We&apos;ll confirm your place by email once we&apos;ve checked it.</li>
                 </ol>
@@ -313,8 +316,9 @@ export default function NextFrontierPage() {
                   <li>· Your signed parental acknowledgement, scanned or photographed</li>
                   <li>· Your IC or passport number</li>
                   <li>· A parent or guardian’s phone number</li>
-                  <li>· Your two teammates’ names and email addresses</li>
-                  <li>· Your three topic choices, agreed with your team</li>
+                  <li>· <em>Teams:</em> your team leader’s email, and your two teammates’ names and emails</li>
+                  <li>· <em>Team leaders:</em> two topic choices, agreed with your team</li>
+                  <li>· <em>On your own:</em> which track interests you most</li>
                   <li>· <strong>{CAMP.fee} to transfer, and your receipt to upload</strong></li>
                 </ul>
                 <div className="mt-6 flex flex-col gap-3">

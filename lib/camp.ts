@@ -131,7 +131,7 @@ export const FAQS = [
   },
   {
     q: 'Do I need a team to register?',
-    a: `Yes. We only accept complete teams of ${CAMP.teamSize} — all three of you must register, each filling in the form separately, and you must all type the same team name exactly. Agree it before you start. Don't have a team? Email us and we'll try to pair you up with others looking for teammates.`,
+    a: `Either works. With a team of ${CAMP.teamSize}: agree a team name and one team leader's email before anyone starts, then all three of you fill in the form separately using exactly those. On your own: pick the track that interests you most and we'll place you in a team before the camp.`,
   },
   {
     q: 'Is the team of three the same as my group on the day?',
@@ -151,7 +151,7 @@ export const FAQS = [
   },
   {
     q: 'When do I find out my poster topic?',
-    a: 'Topics are capped at two teams each and allocated in order of submission, which is why we ask for three choices. We confirm your allocated topic by email within two weeks of registration closing, together with a starter pack for it.',
+    a: 'If you registered as a team, your team leader gives two choices. If you registered on your own, you pick a track and we assign a topic once you are placed in a team. Topics are capped at two teams each and allocated in order of submission. Either way we confirm it by email within two weeks of registration closing, with a starter pack.',
   },
   {
     q: 'What if I need to withdraw?',
